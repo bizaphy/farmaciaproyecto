@@ -90,9 +90,6 @@ app.get("/api/products/:id", async (req, res) => {
 ////////////////////////////// 3️⃣ RUTAS FINALES Y MANEJO DE ERRORES //////////////////////////////
 
 // 📌 Iniciamos el servidor en el puerto definido
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-});
 
 // 📌 Middleware para manejar rutas no encontradas (404)
 app.use((req, res) => {

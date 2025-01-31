@@ -15,7 +15,8 @@ const app = express();
 app.use(cors());
 
 // 📌 Definimos el puerto donde correrá el servidor
-const PORT = 5000;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
 
 // 📌 Middleware para manejar solicitudes en formato JSON
 app.use(express.json());

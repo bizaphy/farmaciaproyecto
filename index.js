@@ -3,6 +3,8 @@ import express from "express";
 import pkg from "pg"; // 🧩 Importamos el paquete `pg` para conectarnos a PostgreSQL
 import cors from "cors";
 const { Pool } = pkg;
+import dotenv from "dotenv";
+dotenv.config({ path: "connect.env" });
 
 ////////////////////////////////// 1️⃣ EXPRESS - Configuración del Servidor //////////////////////////////////////////
 
@@ -20,14 +22,20 @@ app.use(express.json());
 
 ////////////////////////////////// 2️⃣ POSTGRESQL - Conexión con la Base de Datos //////////////////////////////////////////
 
-// 📌 Configuración de conexión a PostgreSQL
+// 📌 Configuración de conexión a PostgreSQL // NEON
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "",
-  password: "",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.DATABASE_URL.includes("sslmode=require")
+    ? { rejectUnauthorized: false }
+    : false,
 });
+
+pool
+  .connect()
+  .then(() => console.log("✅ Conexión exitosa a PostgreSQL en Neon.tech"))
+  .catch((err) =>
+    console.error("❌ Error al conectar con la base de datos:", err)
+  );
 
 // 📌 Ruta para obtener productos desde la base de datos
 app.get("/api/products", async (req, res) => {
@@ -43,7 +51,7 @@ app.get("/api/products", async (req, res) => {
 
     const result = await pool.query(query);
 
-    console.log("📡 Datos enviados desde la API:", result.rows);
+    console.log("📡 Datos obtenidos desde PostgreSQL:", result.rows); // 🔍 Verificar en la terminal
 
     res.json(result.rows);
   } catch (error) {

@@ -8,7 +8,7 @@ const ProductosList = () => {
 
   // 📌 Función para obtener datos desde el backend
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch("https://farmaciaproyecto.onrender.com/api/products")
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error HTTP: ${response.status}`);

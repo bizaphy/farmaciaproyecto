@@ -1,13 +1,23 @@
 import React from "react";
-import ProductosList from "../components/ProductosList"; // 🧩 Importamos el componente que muestra la lista de productos
+import { Box, Container, Typography } from "@mui/material";
+import ProductosList from "../components/ProductosList";
 
 const Productos = () => {
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Productos</h1>
+    <Container
+      maxWidth="xl" //
+      sx={{
+        maxWidth: { xs: "100%", lg: "1400px", xl: "1600px" }, // 🔹 Personalización para pantallas grandes
+        paddingX: { xs: 2, sm: 4, md: 6, lg: 8, xl: 12 }, // Márgenes laterales adaptativos
+        mt: 4, // 🔹 Espaciado superior
+      }}
+    >
+      <Typography variant="h4" textAlign="center" mb={4}>
+        Productos
+      </Typography>
 
       <ProductosList />
-    </div>
+    </Container>
   );
 };
 

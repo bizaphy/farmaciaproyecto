@@ -1,49 +1,69 @@
 import React, { useEffect, useState } from "react";
 import ProductosCard from "./ProductosCard";
-import { Box } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material";
 
+// 📌 Componente para mostrar/renderizar la lista de productos
 const ProductosList = () => {
-  // 📌 Estado para almacenar la lista de productos
-  const [productos, setProductos] = useState([]); // 📝 Comienza como arreglo vacío
+  const [productos, setProductos] = useState([]); //  Estado para guardar la lista de productos obtenidos desde la API
+  const [loading, setLoading] = useState(true); //  Estado para controlar la carga de los productos
 
-  // 📌 Función para obtener datos desde el backend
+  //  useEffect para obtener los productos desde el backend al montar el componente
   useEffect(() => {
     fetch("https://farmaciaproyecto.onrender.com/api/products")
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error HTTP: ${response.status}`);
         }
-        return response.json(); // Convierte la respuesta a JSON
+        return response.json();
       })
       .then((data) => {
-        console.log("Productos recibidos:", data); //  Depuración
-        setProductos(data); //  Actualiza el estado con los datos obtenidos
+        console.log("Productos recibidos:", data);
+        setProductos(data); //  Almacena los productos en el estado
       })
       .catch((error) => {
         console.error("Error al obtener productos:", error);
+      })
+      .finally(() => {
+        setLoading(false); // Finaliza la carga cuando la petición termina
       });
   }, []);
 
-  // 📌 Renderización del componente
   return (
     <Box
-      display="flex"
-      flexWrap="wrap"
-      justifyContent="center"
-      alignItems="center"
-      gap={2}
+      sx={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", // Distribucion uniforme con grid
+        gap: "16px", // Espaciado entre tarjetas
+        justifyContent: "center",
+        mt: 4, // Espaciado superior para el titulo
+        p: 2, //Padding general para evitar que las cards se peguen en los bordes.
+      }}
     >
-      {productos.length === 0 ? (
-        <p>No hay productos disponibles</p> //  Mensaje cuando NO hay productos
+      {/* indicador de carga mientras se obtienen los productos */}
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+          <CircularProgress color="primary" />
+        </Box>
+      ) : productos.length === 0 ? (
+        <Box sx={{ textAlign: "center", width: "100%" }}>
+          <Typography variant="h6" color="textSecondary">
+            No hay productos disponibles
+          </Typography>
+        </Box>
       ) : (
+        // 📌 Renderiza la lista de productos
         productos.map((producto) => (
-          <ProductosCard
-            key={producto.id} // key unica
-            id={producto.id}
-            nombre={producto.nombre}
-            principio_activo={producto.principio_activo}
-            precio={producto.precio}
-          />
+          <Box
+            key={producto.id}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <ProductosCard
+              id={producto.id}
+              nombre={producto.nombre}
+              principio_activo={producto.principio_activo}
+              precio={producto.precio}
+            />
+          </Box>
         ))
       )}
     </Box>

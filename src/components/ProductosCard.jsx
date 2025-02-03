@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { CarritoContext } from "../context/CarritoContext";
 import {
   Card as MuiCard,
@@ -11,14 +12,21 @@ import {
 // 📌 Componente para mostrar un producto en la lista
 const ProductosCard = ({ id, nombre, principio_activo, precio }) => {
   const { agregarAlCarrito } = useContext(CarritoContext);
+  const navigate = useNavigate(); // 📌 Hook para navegación
+
+  // 📌 Función para ir a los detalles del producto
+  const irADetalle = () => {
+    navigate(`/producto/${id}`); // Redirige a la página del producto
+  };
 
   const agregarAlCarro = (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); // Evita que también se dispare la navegación al hacer clic en el botón
     agregarAlCarrito({ id, nombre, principio_activo, precio });
   };
 
   return (
     <MuiCard
+      onClick={irADetalle} // 📌 tarjeta es clickeable y redirige a producto
       sx={{
         width: "100%",
         maxWidth: 345,
@@ -48,7 +56,7 @@ const ProductosCard = ({ id, nombre, principio_activo, precio }) => {
         {/* 📌 Contenedor para precio y botón */}
         <Box sx={{ mt: "auto", textAlign: "center" }}>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            <strong>Precio:</strong> $
+            <strong>Precio:</strong> ${" "}
             {precio ? Number(precio).toFixed(2) : "N/A"}
           </Typography>
 

@@ -60,6 +60,7 @@ app.get("/api/products", async (req, res) => {
     res.status(500).json({ error: "Error al obtener productos" });
   }
 });
+
 // 📌 Ruta para obtener productos por ID
 app.get("/api/products/:id", async (req, res) => {
   const id = parseInt(req.params.id, 10);
@@ -87,9 +88,30 @@ app.get("/api/products/:id", async (req, res) => {
   }
 });
 
-////////////////////////////// 3️⃣ RUTAS FINALES Y MANEJO DE ERRORES //////////////////////////////
+// 📌 Ruta para agregar un nuevo producto a la base de datos
+app.post("/api/products", async (req, res) => {
+  const { nombre, descripcion, precio, image_url, user_id } = req.body;
 
-// 📌 Iniciamos el servidor en el puerto definido
+  if (!nombre || !descripcion || !precio || !image_url) {
+    return res.status(400).json({ error: "Todos los campos son obligatorios" });
+  }
+
+  try {
+    const result = await pool.query(
+      `INSERT INTO productos (nombre, descripcion, precio, image_url, user_id) 
+      VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [nombre, descripcion, precio, image_url, user_id]
+    );
+
+    console.log("📌 Producto agregado:", result.rows[0]);
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("❌ Error al insertar producto:", error);
+    res.status(500).json({ error: "Error al insertar el producto" });
+  }
+});
+
+////////////////////////////// 3️⃣ RUTAS FINALES Y MANEJO DE ERRORES //////////////////////////////
 
 // 📌 Middleware para manejar rutas no encontradas (404)
 app.use((req, res) => {

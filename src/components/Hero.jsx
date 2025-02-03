@@ -6,7 +6,7 @@ const Hero = () => {
     <Box
       style={{
         position: "relative",
-        height: "600px",
+        height: "400px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

@@ -32,11 +32,11 @@ const ProductosList = () => {
     <Box
       sx={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", // Distribucion uniforme con grid
-        gap: "16px", // Espaciado entre tarjetas
+        gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+        gap: "16px",
         justifyContent: "center",
-        mt: 4, // Espaciado superior para el titulo
-        p: 2, //Padding general para evitar que las cards se peguen en los bordes.
+        mt: 4,
+        p: 2,
       }}
     >
       {/* indicador de carga mientras se obtienen los productos */}

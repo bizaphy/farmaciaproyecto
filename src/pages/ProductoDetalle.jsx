@@ -20,29 +20,29 @@ const ProductoDetalle = () => {
   useEffect(() => {
     console.log(`Obteniendo producto con ID: ${id}`);
 
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`https://farmaciaproyecto.onrender.com/api/products/${id}`) // Obtenemos solo el producto específico
       .then((response) => {
         if (!response.ok) {
           console.error(`Error HTTP: ${response.status}`);
           setError(
             `Error: No se pudo obtener el producto (${response.status})`
           );
-          return null; // ⏪ Retornamos `null` para evitar errores
+          return null; // Retornamos `null` para evitar errores
         }
         return response.json();
       })
       .then((data) => {
         if (data) {
-          console.log("Datos obtenidos:", data);
+          console.log("Producto obtenido:", data);
           setProducto(data);
         }
       })
       .catch((error) => {
         console.error("Error al obtener el producto:", error);
-        setError("Error de conexión con el servidor"); // Guarda el mensaje de error
+        setError("Error de conexión con el servidor");
       })
       .finally(() => {
-        setLoading(false); // ⏳ Finaliza la carga
+        setLoading(false);
       });
   }, [id]); //  Se ejecuta cuando cambia el ID del producto
 
@@ -53,7 +53,7 @@ const ProductoDetalle = () => {
   };
 
   if (loading) return <p style={styles.loading}>⏳ Cargando producto...</p>;
-  if (error) return <p style={styles.error}>❌ Error: {error}</p>;
+  if (error) return <p style={styles.error}>❌ {error}</p>;
   if (!producto) return <p style={styles.error}>❌ Producto no encontrado.</p>;
 
   return (

@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { useAuth } from "../context/AuthContext";
 
-function CreatePost() {
+function CrearProducto() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -16,17 +15,31 @@ function CreatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const { error: uploadError } = await supabase.from("posts").insert([
-        {
-          ...formData,
-          user_id: user.id,
-          price: parseFloat(formData.price),
-        },
-      ]);
 
-      if (uploadError) throw uploadError;
-      navigate("/gallery");
+    try {
+      const response = await fetch(
+        "https://farmaciaproyecto.onrender.com/api/products",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nombre: formData.title, // Asegurar que coincida con los campos de la DB
+            descripcion: formData.description,
+            precio: parseFloat(formData.price),
+            image_url: formData.image_url,
+            user_id: user?.id || null, // Si necesitas almacenar el usuario
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al crear el producto");
+      }
+
+      navigate("/gallery"); // Redirigir después de éxito
     } catch (error) {
       setError(error.message);
     }
@@ -113,4 +126,4 @@ function CreatePost() {
   );
 }
 
-export default CreatePost;
+export default CrearProducto;

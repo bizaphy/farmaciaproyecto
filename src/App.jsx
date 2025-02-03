@@ -10,7 +10,8 @@ import Productos from "./pages/Productos";
 import Perfil from "./pages/Perfil";
 import ProductoDetalle from "./pages/ProductoDetalle";
 import { CarritoProvider } from "./context/CarritoContext"; // Importacion del proveedor del carrito
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 const App = () => {
   return (
     <div style={styles.app}>

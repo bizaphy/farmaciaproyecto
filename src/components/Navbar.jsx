@@ -48,9 +48,7 @@ const Navbar = () => {
             <Typography
               variant="h6"
               style={{ fontWeight: "bold", color: "black" }}
-            >
-              BOTICA VIRGEN DE LOURDES
-            </Typography>
+            ></Typography>
           </div>
 
           {/* 🔹 Sección especifica: Buscador */}

@@ -27,7 +27,7 @@ const Navbar = () => {
       {/* 📌  Barra principal de la navbar (logo, nombre, buscador, iconos) */}
       <AppBar
         position="static"
-        style={{ backgroundColor: "#0000", boxShadow: "none" }}
+        style={{ backgroundColor: "#fff", boxShadow: "none" }}
       >
         <Toolbar
           style={{

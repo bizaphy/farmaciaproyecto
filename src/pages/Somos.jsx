@@ -18,7 +18,7 @@ const Somos = () => {
           sx={{
             textAlign: "center",
             mt: 5,
-            mb: 5,
+            mb: 12,
             p: 4,
             borderRadius: 2,
             boxShadow: 3,

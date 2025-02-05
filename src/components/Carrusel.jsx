@@ -7,7 +7,7 @@ const CarouselProductos = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -32,36 +32,35 @@ const CarouselProductos = () => {
     ],
   };
 
-  // Lista de productos con URL e imagen descriptiva para accesibilidad
   const productos = [
     {
-      url: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/92894d86637063.5d9f5174bd756.png",
-      alt: "Publicidad de bebida hidratante Electrolit y sus disitntas variedades",
+      url: "https://res.cloudinary.com/ddlbn5fnx/image/upload/v1738716036/vitaminas_yyrhqr.jpg",
+      alt: "Publicidad de colageno y calcio con vitamina D",
     },
     {
-      url: "https://as2.ftcdn.net/v2/jpg/10/25/93/09/1000_F_1025930905_Gb9Afl9UfpO1VHObOQkDEnWgkBwQKqiN.jpg",
-      alt: "Imagen representativa de frasco de medicamento abierto",
+      url: "https://res.cloudinary.com/ddlbn5fnx/image/upload/v1738716036/La_roche_antihelios_ehidph.jpg",
+      alt: "Publicidad de protector solar Anthelios La Roche",
     },
     {
-      url: "https://mir-s3-cdn-cf.behance.net/project_modules/max_3840/42f17780276945.5cdc65da88864.jpg",
-      alt: "Solucion sabor menta Erhosil",
+      url: "https://res.cloudinary.com/ddlbn5fnx/image/upload/v1738716036/abrilar_lq5g9o.jpg",
+      alt: "Publicidad de jarabe para la tos ABRILAR",
     },
     {
-      url: "https://mir-s3-cdn-cf.behance.net/project_modules/2800/a2f96d28730711.55cf215c8dce9.jpg",
-      alt: "Publicidad de Olopatadina, medicamento para alergia",
+      url: "https://res.cloudinary.com/ddlbn5fnx/image/upload/v1738716036/optimum_whey_upsasj.jpg",
+      alt: "Publicidad de proteina WHEY gold standard",
     },
     {
-      url: "https://mir-s3-cdn-cf.behance.net/project_modules/fs/20cb2328731097.55cf285de109f.jpg",
-      alt: "Publicidad de Pediacort, medicamento respiratorio con corticoides",
+      url: "https://res.cloudinary.com/ddlbn5fnx/image/upload/v1738716036/aspirina_bycjz6.jpg",
+      alt: "Publicidad de aspirina",
     },
     {
-      url: "https://mir-s3-cdn-cf.behance.net/project_modules/2800/5d207828731309.55cf2c92af80c.jpg",
-      alt: "Publicididad de Apiret. Medicamento en jarabe de paracetamol",
+      url: "https://res.cloudinary.com/ddlbn5fnx/image/upload/v1738716036/fastlyte_uvrxai.jpg",
+      alt: "Publicididad de bebida hidratante Fastlyte",
     },
   ];
 
   return (
-    <Box sx={{ mt: 5 }}>
+    <Box sx={{ mt: 3 }}>
       <Slider {...settings}>
         {productos.map((producto, index) => (
           <div
@@ -70,10 +69,10 @@ const CarouselProductos = () => {
           >
             <img
               src={producto.url}
-              alt={producto.alt} // ALT para accesibilidad
+              alt={producto.alt}
               style={{
-                width: "100%",
-                maxHeight: "400px",
+                width: "430px",
+                height: "430px",
                 objectFit: "cover",
                 borderRadius: "8px",
               }}

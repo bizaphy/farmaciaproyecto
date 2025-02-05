@@ -34,7 +34,7 @@ const ProductosCard = ({
       onClick={irADetalle}
       sx={{
         width: "100%",
-        maxWidth: 345,
+        maxWidth: 1000,
         margin: 2,
         boxShadow: 3,
         cursor: "pointer",
@@ -43,14 +43,17 @@ const ProductosCard = ({
         height: "auto", // 📌 Altura fija para todas las tarjetas
       }}
     >
-      {/* 📌 Imagen del producto */}
       <CardMedia
         component="img"
-        width="100%"
-        height="450" // 📌 Altura de la imagen
-        image={imagen_url || "https://via.placeholder.com/345x200"} // Imagen por defecto si no hay URL
+        image={imagen_url || "https://via.placeholder.com/345x345"} // Imagen por defecto cuadrada
         alt={nombre}
-        sx={{ objectFit: "cover" }}
+        sx={{
+          width: "100%", // 📌 Se ajusta al ancho del Card
+
+          objectFit: "cover", // 📌 Muestra toda la imagen sin recortes
+          backgroundColor: "#f5f5f5", // 📌 Fondo para imágenes con transparencia
+          padding: "10px", // 📌 Añade un pequeño espacio alrededor de la imagen
+        }}
       />
 
       <CardContent

@@ -40,13 +40,14 @@ const ProductosCard = ({
         cursor: "pointer",
         display: "flex",
         flexDirection: "column",
-        height: "600px", // 📌 Altura fija para todas las tarjetas
+        height: "auto", // 📌 Altura fija para todas las tarjetas
       }}
     >
       {/* 📌 Imagen del producto */}
       <CardMedia
         component="img"
-        height="400" // 📌 Altura de la imagen
+        width="100%"
+        height="450" // 📌 Altura de la imagen
         image={imagen_url || "https://via.placeholder.com/345x200"} // Imagen por defecto si no hay URL
         alt={nombre}
         sx={{ objectFit: "cover" }}

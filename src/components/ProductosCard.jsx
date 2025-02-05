@@ -40,19 +40,16 @@ const ProductosCard = ({
         cursor: "pointer",
         display: "flex",
         flexDirection: "column",
-        height: "auto", // 📌 Altura fija para todas las tarjetas
+        height: "auto",
       }}
     >
       <CardMedia
         component="img"
-        image={imagen_url || "https://via.placeholder.com/345x345"} // Imagen por defecto cuadrada
+        image={imagen_url || "https://via.placeholder.com/345x345"}
         alt={nombre}
         sx={{
-          width: "100%", // 📌 Se ajusta al ancho del Card
-
-          objectFit: "cover", // 📌 Muestra toda la imagen sin recortes
-          backgroundColor: "#f5f5f5", // 📌 Fondo para imágenes con transparencia
-          padding: "10px", // 📌 Añade un pequeño espacio alrededor de la imagen
+          width: "100%",
+          objectFit: "cover",
         }}
       />
 
@@ -72,7 +69,7 @@ const ProductosCard = ({
         </Box>
 
         {/* 📌 Contenedor para precio y botón */}
-        <Box sx={{ mt: "auto", textAlign: "center" }}>
+        <Box sx={{ mt: "auto", textAlign: "center", pt: 2 }}>
           <Typography variant="body1" sx={{ mb: 2 }}>
             <strong>Precio:</strong> $
             {precio ? Number(precio).toFixed(2) : "N/A"}

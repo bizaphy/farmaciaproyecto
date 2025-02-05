@@ -46,6 +46,8 @@ app.get("/api/products", async (req, res) => {
         id,
         nombre, 
         principio_activo,
+        imagen_url,
+        stock,
         precio::FLOAT AS precio  
       FROM productos;
     `;
@@ -71,7 +73,7 @@ app.get("/api/products/:id", async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT id, nombre, principio_activo, precio FROM productos WHERE id = $1`,
+      `SELECT id, nombre, principio_activo, precio, imagen_url FROM productos WHERE id = $1`,
       [id]
     );
 
@@ -90,17 +92,17 @@ app.get("/api/products/:id", async (req, res) => {
 
 // 📌 Ruta para agregar un nuevo producto a la base de datos
 app.post("/api/products", async (req, res) => {
-  const { nombre, descripcion, precio, image_url, user_id } = req.body;
+  const { nombre, descripcion, precio, imagen_url, user_id } = req.body;
 
-  if (!nombre || !descripcion || !precio || !image_url) {
+  if (!nombre || !descripcion || !precio || !imagen_url) {
     return res.status(400).json({ error: "Todos los campos son obligatorios" });
   }
 
   try {
     const result = await pool.query(
-      `INSERT INTO productos (nombre, descripcion, precio, image_url, user_id) 
+      `INSERT INTO productos (nombre, descripcion, precio, imagen_url, user_id) 
       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [nombre, descripcion, precio, image_url, user_id]
+      [nombre, descripcion, precio, imagen_url, user_id]
     );
 
     console.log("📌 Producto agregado:", result.rows[0]);

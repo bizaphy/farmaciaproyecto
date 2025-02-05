@@ -7,26 +7,31 @@ import {
   Typography,
   Button,
   Box,
+  CardMedia,
 } from "@mui/material";
 
-// 📌 Componente para mostrar un producto en la lista
-const ProductosCard = ({ id, nombre, principio_activo, precio }) => {
+const ProductosCard = ({
+  id,
+  nombre,
+  principio_activo,
+  precio,
+  imagen_url,
+}) => {
   const { agregarAlCarrito } = useContext(CarritoContext);
-  const navigate = useNavigate(); // 📌 Hook para navegación
+  const navigate = useNavigate();
 
-  // 📌 Función para ir a los detalles del producto
   const irADetalle = () => {
-    navigate(`/producto/${id}`); // Redirige a la página del producto
+    navigate(`/producto/${id}`);
   };
 
   const agregarAlCarro = (e) => {
-    e.stopPropagation(); // Evita que también se dispare la navegación al hacer clic en el botón
-    agregarAlCarrito({ id, nombre, principio_activo, precio });
+    e.stopPropagation();
+    agregarAlCarrito({ id, nombre, principio_activo, precio, imagen_url });
   };
 
   return (
     <MuiCard
-      onClick={irADetalle} // 📌 tarjeta es clickeable y redirige a producto
+      onClick={irADetalle}
       sx={{
         width: "100%",
         maxWidth: 345,
@@ -35,15 +40,24 @@ const ProductosCard = ({ id, nombre, principio_activo, precio }) => {
         cursor: "pointer",
         display: "flex",
         flexDirection: "column",
-        height: "100%", // Hace que todas las tarjetas tengan la misma altura
+        height: "500px", // 📌 Altura fija para todas las tarjetas
       }}
     >
+      {/* 📌 Imagen del producto */}
+      <CardMedia
+        component="img"
+        height="200" // 📌 Altura de la imagen
+        image={imagen_url || "https://via.placeholder.com/345x200"} // Imagen por defecto si no hay URL
+        alt={nombre}
+        sx={{ objectFit: "cover" }}
+      />
+
       <CardContent
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between", // Distribuye los elementos uniformemente
-          flexGrow: 1, // Permite que el contenido ocupe todo el espacio disponible
+          justifyContent: "space-between",
+          flexGrow: 1,
         }}
       >
         <Box>
@@ -56,7 +70,7 @@ const ProductosCard = ({ id, nombre, principio_activo, precio }) => {
         {/* 📌 Contenedor para precio y botón */}
         <Box sx={{ mt: "auto", textAlign: "center" }}>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            <strong>Precio:</strong> ${" "}
+            <strong>Precio:</strong> $
             {precio ? Number(precio).toFixed(2) : "N/A"}
           </Typography>
 

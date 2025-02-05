@@ -62,6 +62,7 @@ const ProductosList = () => {
               nombre={producto.nombre}
               principio_activo={producto.principio_activo}
               precio={producto.precio}
+              imagen_url={producto.imagen_url}
             />
           </Box>
         ))

@@ -110,12 +110,15 @@ const Navbar = () => {
           backgroundColor: "white",
           fontSize: "20px",
           padding: "0px 0px 10px 0px",
-          height: "30px",
+          height: "auto",
           width: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           gap: "30px", // Espaciado entre los enlaces
+          flexWrap: "wrap",
+          textAlign: "center",
+          paddingBottom: "10px",
         }}
       >
         <StyledLink to="/">Somos</StyledLink>
@@ -127,8 +130,7 @@ const Navbar = () => {
   );
 };
 
-/* 🔹 Estilos usando styled() de Material-UI */
-const StyledLink = styled(Link)({
+const StyledLink = styled(Link)(({ theme }) => ({
   color: "#FF0000",
   textDecoration: "none",
   fontWeight: "bold",
@@ -141,10 +143,14 @@ const StyledLink = styled(Link)({
     opacity: 0.7,
   },
 
-  // Efecto de "presionado"
   "&:active": {
     transform: "scale(0.95)",
   },
-});
+
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "14px",
+    padding: "5px 8px",
+  },
+}));
 
 export default Navbar;

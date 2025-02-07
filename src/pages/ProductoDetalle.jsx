@@ -1,127 +1,117 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Button,
+  Box,
+} from "@mui/material";
+import { CarritoContext } from "../context/CarritoContext"; // 🔹 Importamos el contexto del carrito
 
 const ProductoDetalle = () => {
-  const { id } = useParams(); // 📌 Obtiene el ID del producto desde la URL
-
-  // 📌 Estado para almacenar los detalles del producto
+  const { id } = useParams();
   const [producto, setProducto] = useState(null);
-
-  // 📌 Estado para manejar errores al obtener los datos del producto
   const [error, setError] = useState(null);
-
-  // 📌 Estado para indicar si la información del producto está cargando
   const [loading, setLoading] = useState(true);
-
-  // 📌 Estado para verificar si el producto ha sido agregado al carrito
-  const [enCarro, setEnCarro] = useState(false);
+  const { agregarAlCarrito } = useContext(CarritoContext);
 
   useEffect(() => {
-    console.log(`Obteniendo producto con ID: ${id}`);
-
-    fetch(`https://farmaciaproyecto.onrender.com/api/products/${id}`) // Obtenemos solo el producto específico
+    fetch(`https://farmaciaproyecto.onrender.com/api/products/${id}`)
       .then((response) => {
         if (!response.ok) {
-          console.error(`Error HTTP: ${response.status}`);
           setError(
             `Error: No se pudo obtener el producto (${response.status})`
           );
-          return null; // Retornamos `null` para evitar errores
+          return null;
         }
         return response.json();
       })
       .then((data) => {
         if (data) {
-          console.log("Producto obtenido:", data);
           setProducto(data);
         }
       })
-      .catch((error) => {
-        console.error("Error al obtener el producto:", error);
-        setError("Error de conexión con el servidor");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [id]); //  Se ejecuta cuando cambia el ID del producto
+      .catch(() => setError("Error de conexión con el servidor"))
+      .finally(() => setLoading(false));
+  }, [id]);
 
-  // 📌 Función para agregar el producto al carrito
   const agregarAlCarro = () => {
-    setEnCarro(true); // Cambia el estado para indicar que ya está agregado
+    if (!producto) return;
+
+    agregarAlCarrito({
+      id: producto.id,
+      nombre: producto.nombre,
+      principio_activo: producto.principio_activo,
+      precio: producto.precio,
+      imagen_url: producto.imagen_url,
+    });
+
     console.log(`Producto agregado al carrito: ${producto.nombre}`);
   };
 
-  if (loading) return <p style={styles.loading}>⏳ Cargando producto...</p>;
-  if (error) return <p style={styles.error}>❌ {error}</p>;
-  if (!producto) return <p style={styles.error}>❌ Producto no encontrado.</p>;
+  if (loading || error || !producto) {
+    return (
+      <Typography align="center" color={error ? "error" : "textPrimary"}>
+        {loading
+          ? "⏳ Cargando producto..."
+          : error || "❌ Producto no encontrado."}
+      </Typography>
+    );
+  }
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>{producto.nombre}</h1>
-        <p style={styles.text}>
-          <strong>Principio activo:</strong> {producto.principio_activo}
-        </p>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
+      bgcolor="#f5f5f5"
+    >
+      <Card sx={{ maxWidth: 500, textAlign: "center", boxShadow: 3 }}>
+        {producto.imagen_url && (
+          <CardMedia
+            component="img"
+            height="550"
+            image={producto.imagen_url}
+            alt={producto.nombre}
+          />
+        )}
 
-        {/* 📌 Botón para agregar al carrito */}
-        <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-          <Button
-            variant="contained"
-            onClick={agregarAlCarro}
-            sx={{
-              backgroundColor: enCarro ? "#CC0000" : "#FF0000",
-              color: "white",
-              padding: "8px 16px",
-              borderRadius: "8px",
-              fontWeight: "normal",
-              textTransform: "none",
-              "&:hover": { backgroundColor: "#CC0000" },
-            }}
-            disabled={enCarro} // Se desactiva después de hacer clic
-          >
-            {enCarro ? "Agregado" : "Agregar al carro"}{" "}
-          </Button>
-        </Box>
-      </div>
-    </div>
+        <CardContent>
+          <Typography variant="h5" component="div">
+            {producto.nombre}
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            <strong>Principio activo:</strong> {producto.principio_activo}
+          </Typography>
+          <Typography variant="h6" sx={{ mt: 2 }}>
+            <strong>Precio:</strong> $
+            {producto.precio ? Number(producto.precio).toFixed(2) : "N/A"}
+          </Typography>
+
+          <Box sx={{ mt: "auto", textAlign: "center", pt: 2 }}>
+            <Button
+              variant="contained"
+              onClick={agregarAlCarro}
+              sx={{
+                backgroundColor: "#FF0000",
+                color: "white",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                fontWeight: "normal",
+                textTransform: "none",
+                "&:hover": { backgroundColor: "#CC0000" },
+              }}
+            >
+              Agregar al carro
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
-};
-
-// 📌 Estilos
-const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    backgroundColor: "#f5f5f5",
-  },
-  card: {
-    backgroundColor: "white",
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    textAlign: "center",
-    width: "300px",
-  },
-  title: {
-    fontSize: "24px",
-    marginBottom: "10px",
-  },
-  text: {
-    fontSize: "18px",
-  },
-  loading: {
-    textAlign: "center",
-    fontSize: "20px",
-    marginTop: "20px",
-  },
-  error: {
-    textAlign: "center",
-    color: "red",
-    fontSize: "20px",
-  },
 };
 
 export default ProductoDetalle;

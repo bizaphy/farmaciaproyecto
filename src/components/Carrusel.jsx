@@ -60,21 +60,34 @@ const CarouselProductos = () => {
   ];
 
   return (
-    <Box sx={{ mt: 3 }}>
+    <Box
+      sx={{
+        mt: 3,
+        width: "100%",
+        maxWidth: "100vw",
+        overflow: "hidden",
+        boxSizing: "border-box",
+      }}
+    >
       <Slider {...settings}>
         {productos.map((producto, index) => (
           <div
             key={index}
-            style={{ display: "flex", justifyContent: "center" }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              padding: "10px",
+            }}
           >
             <img
               src={producto.url}
               alt={producto.alt}
               style={{
-                width: "430px",
-                height: "430px",
+                width: "clamp(150px, 90%, 430px)",
+                height: "clamp(150px, 90%, 430px)",
                 objectFit: "cover",
                 borderRadius: "8px",
+                maxWidth: "100%",
               }}
             />
           </div>

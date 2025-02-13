@@ -69,7 +69,16 @@ const ProductoDetalle = () => {
       height="100vh"
       bgcolor="#f5f5f5"
     >
-      <Card sx={{ maxWidth: 500, textAlign: "center", boxShadow: 3 }}>
+      <Card
+        sx={{
+          maxWidth: 500,
+          width: "100%",
+          textAlign: "center",
+          boxShadow: 3,
+          maxHeight: "80vh",
+          overflowY: "auto",
+        }}
+      >
         {producto.imagen_url && (
           <CardMedia
             component="img"

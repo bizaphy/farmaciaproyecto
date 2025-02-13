@@ -76,7 +76,6 @@ const ProductoDetalle = () => {
           textAlign: "center",
           boxShadow: 3,
           maxHeight: "80vh",
-          overflowY: "auto",
         }}
       >
         {producto.imagen_url && (

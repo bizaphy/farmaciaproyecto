@@ -11,3 +11,4 @@ Material UI
 Express
 JWT + bcrypt
 PostgreSQL (almacenada en neon.tech)
+

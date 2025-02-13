@@ -62,7 +62,7 @@ const Navbar = () => {
               <img
                 src={logo}
                 alt="Logo Botica Virgen de Lourdes"
-                style={{ height: "60px", width: "230px" }}
+                style={{ height: "50px" }}
               />
             </Link>
           </div>
@@ -113,7 +113,8 @@ const Navbar = () => {
                   },
                 }}
               >
-                <Search style={{ fontSize: "1.5rem" }} /> {/* Icono más grande */}
+                <Search style={{ fontSize: "1.5rem" }} />{" "}
+                {/* Icono más grande */}
               </IconButton>
             </Paper>
           </div>
@@ -125,7 +126,8 @@ const Navbar = () => {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <IconButton>
-                <Person style={{ color: "black", fontSize: "1.5rem" }} /> {/* Icono más grande */}
+                <Person style={{ color: "black", fontSize: "1.5rem" }} />{" "}
+                {/* Icono más grande */}
               </IconButton>
             </Link>
             <Link
@@ -133,7 +135,8 @@ const Navbar = () => {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <IconButton>
-                <ShoppingCart style={{ color: "black", fontSize: "1.5rem" }} /> {/* Icono más grande */}
+                <ShoppingCart style={{ color: "black", fontSize: "1.5rem" }} />{" "}
+                {/* Icono más grande */}
               </IconButton>
             </Link>
           </div>

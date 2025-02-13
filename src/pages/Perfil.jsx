@@ -7,7 +7,9 @@ import {
   Button,
   TextField,
   Box,
+  InputAdornment,
 } from "@mui/material";
+import { Person, Phone, Home } from "@mui/icons-material";
 
 // 📌 Componente para mostrar y editar el perfil del usuario
 const Profile = () => {
@@ -113,6 +115,13 @@ const Profile = () => {
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Person color="action" />
+                  </InputAdornment>
+                ),
+              }}
             />
             <TextField
               label="Teléfono"
@@ -122,6 +131,13 @@ const Profile = () => {
               onChange={(e) =>
                 setFormData({ ...formData, phone: e.target.value })
               }
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Phone color="action" />
+                  </InputAdornment>
+                ),
+              }}
             />
             <TextField
               label="Dirección"
@@ -131,6 +147,13 @@ const Profile = () => {
               onChange={(e) =>
                 setFormData({ ...formData, address: e.target.value })
               }
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Home color="action" />
+                  </InputAdornment>
+                ),
+              }}
             />
 
             {/* 📌 Botones para guardar o cancelar la edición */}

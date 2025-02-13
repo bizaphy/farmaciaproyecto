@@ -74,6 +74,12 @@ const ProductosCard = ({
             <strong>Precio:</strong> $
             {precio ? Number(precio).toFixed(2) : "N/A"}
           </Typography>
+         
+          {productoEnCarrito ? (
+            <Typography variant="body2" color="text.secondary">
+              Producto en el carrito
+            </Typography>
+          ) : (
 
           <Button
             variant="contained"
@@ -90,6 +96,7 @@ const ProductosCard = ({
           >
             Agregar al carro
           </Button>
+          )}
         </Box>
       </CardContent>
     </MuiCard>

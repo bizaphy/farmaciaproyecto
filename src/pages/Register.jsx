@@ -8,7 +8,10 @@ import {
   TextField,
   Button,
   Alert,
+  InputAdornment,
 } from "@mui/material";
+
+import { Email, Lock, Person } from "@mui/icons-material"; 
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -55,6 +58,7 @@ function Register() {
         )}
 
         <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
+          {/* Campo de Nombre Completo con Icono */}
           <TextField
             fullWidth
             label="Nombre completo"
@@ -63,7 +67,16 @@ function Register() {
             required
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Person color="action" />
+                </InputAdornment>
+              ),
+            }}
           />
+
+          {/* Campo de Correo con Icono */}
           <TextField
             fullWidth
             label="Correo electrónico"
@@ -75,7 +88,16 @@ function Register() {
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Email color="action" />
+                </InputAdornment>
+              ),
+            }}
           />
+
+          {/* Campo de Contraseña con Icono */}
           <TextField
             fullWidth
             label="Contraseña"
@@ -87,7 +109,15 @@ function Register() {
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock color="action" />
+                </InputAdornment>
+              ),
+            }}
           />
+
           <Button
             type="submit"
             fullWidth

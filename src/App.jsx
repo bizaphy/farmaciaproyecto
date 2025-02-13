@@ -11,6 +11,7 @@ import Perfil from "./pages/Perfil";
 import ProductoDetalle from "./pages/ProductoDetalle";
 import CrearProductos from "./pages/CrearProductos";
 import { CarritoProvider } from "./context/CarritoContext"; // Importacion del proveedor del carrito
+import RecuperarContrasena from "./pages/RecuperarContrasena";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 const App = () => {
@@ -24,6 +25,10 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Somos />} />
               <Route path="/login" element={<Login />} />
+              <Route
+                path="/recuperar-contrasena"
+                element={<RecuperarContrasena />}
+              />
               <Route path="/register" element={<Registrar />} />
               <Route path="/carrito" element={<Carrito />} />
               <Route path="/productos" element={<Productos />} />

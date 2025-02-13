@@ -8,7 +8,9 @@ import {
   TextField,
   Button,
   Alert,
+  InputAdornment,
 } from "@mui/material";
+import { Email, Lock } from "@mui/icons-material"; // Importar iconos
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -27,6 +29,14 @@ function Login() {
     } catch (error) {
       setError(error.message);
     }
+  };
+
+  const irARecuperarContraseña = () => {
+    navigate("/recuperar-contrasena");
+  };
+
+  const irARegistro = () => {
+    navigate("/register");
   };
 
   return (
@@ -54,6 +64,7 @@ function Login() {
         )}
 
         <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
+          {/* Campo de Correo con Icono */}
           <TextField
             fullWidth
             label="Correo electrónico"
@@ -65,7 +76,16 @@ function Login() {
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Email color="action" />
+                </InputAdornment>
+              ),
+            }}
           />
+
+          {/* Campo de Contraseña con Icono */}
           <TextField
             fullWidth
             label="Contraseña"
@@ -77,7 +97,15 @@ function Login() {
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock color="action" />
+                </InputAdornment>
+              ),
+            }}
           />
+
           <Button
             type="submit"
             fullWidth
@@ -91,6 +119,34 @@ function Login() {
           >
             Iniciar Sesión
           </Button>
+
+          <Typography
+            variant="body2"
+            sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}
+            onClick={irARecuperarContraseña}
+          >
+            ¿Olvidaste tu contraseña?{" "}
+            <Typography
+              component="span"
+              sx={{ color: "#FF0000", fontWeight: "bold" }}
+            >
+              Recupérala aquí
+            </Typography>
+          </Typography>
+
+          <Typography
+            variant="body2"
+            sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}
+            onClick={irARegistro}
+          >
+            ¿Aún no tienes cuenta?{" "}
+            <Typography
+              component="span"
+              sx={{ color: "#FF0000", fontWeight: "bold" }}
+            >
+              Regístrate
+            </Typography>
+          </Typography>
         </Box>
       </Box>
     </Container>

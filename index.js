@@ -48,6 +48,8 @@ app.get("/api/products", async (req, res) => {
         principio_activo,
         imagen_url,
         stock,
+        laboratorio,
+        descripcion,
         precio::FLOAT AS precio  
       FROM productos;
     `;
@@ -73,7 +75,7 @@ app.get("/api/products/:id", async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT id, nombre, principio_activo, precio, imagen_url FROM productos WHERE id = $1`,
+      `SELECT id, nombre, principio_activo, precio, imagen_url, laboratorio, descripcion, stock FROM productos WHERE id = $1`,
       [id]
     );
 

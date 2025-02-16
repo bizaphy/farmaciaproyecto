@@ -144,10 +144,19 @@ const ProductoDetalle = () => {
             {" "}
             {/* Contenedor para los textos */}
             <Typography variant="h4" fontWeight="bold">
-              {producto.nombre}
+              {producto.nombre || "No disponible"}
             </Typography>
             <Typography variant="h5" color="text.secondary">
-              <strong>Principio activo:</strong> {producto.principio_activo}
+              <strong>Principio activo:</strong>{" "}
+              {producto.principio_activo || "No disponible"}
+            </Typography>
+            <Typography variant="h5" color="text.secondary">
+              <strong>Laboratorio:</strong>{" "}
+              {producto.laboratorio || "No disponible"}
+            </Typography>
+            <Typography variant="h5" color="text.secondary">
+              <strong>Stock disponible:</strong>{" "}
+              {producto.stock || "No especificado"}
             </Typography>
             <Typography variant="h5">
               <strong>Precio:</strong> $

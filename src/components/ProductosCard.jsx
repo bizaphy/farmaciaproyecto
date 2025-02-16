@@ -14,6 +14,7 @@ const ProductosCard = ({
   id,
   nombre,
   principio_activo,
+  descripcion,
   precio,
   imagen_url,
 }) => {

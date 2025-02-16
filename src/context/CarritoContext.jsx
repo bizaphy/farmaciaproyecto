@@ -59,18 +59,21 @@ export const CarritoProvider = ({ children }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          product_id: producto.id,
-          quantity: 1,
-        }),
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://farmaciaproyecto.onrender.com/cart",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            product_id: producto.id,
+            quantity: 1,
+          }),
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) throw new Error("Error al agregar al carrito");
       const data = await response.json();
@@ -112,11 +115,14 @@ export const CarritoProvider = ({ children }) => {
   // 📌 Eliminar un producto del carrito
   const eliminarDelCarrito = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/cart/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` }, // ✅ Se agregó token
-        credentials: "include",
-      });
+      const response = await fetch(
+        `https://farmaciaproyecto.onrender.com/cart/${id}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` }, // ✅ Se agregó token
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) throw new Error("Error al eliminar producto");
       fetchCarrito(); // ✅ Recargar el carrito después de eliminar un producto

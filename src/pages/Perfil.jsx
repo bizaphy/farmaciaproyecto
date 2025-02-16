@@ -33,10 +33,11 @@ const Profile = () => {
 
   // 📌 Función para obtener los datos del perfil desde la base de datos
   const fetchProfile = async () => {
-    const response = await fetch(
-      `"https://farmaciaproyecto.onrender.com/api/profile/${user.id}`
-    );
-    const data = await response.json();
+    const { data } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
 
     if (data) {
       setProfile(data);
@@ -48,26 +49,16 @@ const Profile = () => {
     }
   };
 
-  // 📌 Función para actualizar el perfil en el backend local
+  // 📌 Función para actualizar el perfil en la BDD
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(
-      `http://localhost:3000/api/profile/${user.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: user.id,
-          ...formData,
-          updated_at: new Date(),
-        }),
-      }
-    );
+    const { error } = await supabase.from("profiles").upsert({
+      id: user.id,
+      ...formData,
+      updated_at: new Date(),
+    });
 
-    const result = await response.json();
-    if (result.success) {
+    if (!error) {
       setIsEditing(false);
       fetchProfile(); // 📌 Recarga los datos actualizados
     }

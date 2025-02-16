@@ -60,7 +60,7 @@ const ProductosList = () => {
             <ProductosCard
               id={producto.id}
               nombre={producto.nombre}
-              descripcion={producto.descripcion}
+              principio_activo={producto.principio_activo}
               precio={producto.precio}
               imagen_url={producto.imagen_url}
             />

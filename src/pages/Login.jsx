@@ -19,7 +19,7 @@ function Login() {
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { signIn, signOut, user } = useAuth();
+  const { signIn } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,11 +37,6 @@ function Login() {
 
   const irARegistro = () => {
     navigate("/register");
-  };
-
-  const handleSignOut = () => {
-    signOut();
-    navigate("/login"); // Redirige al usuario a la página de login después de cerrar sesión
   };
 
   return (
@@ -68,112 +63,91 @@ function Login() {
           </Alert>
         )}
 
-        {user ? (
-          <Box sx={{ width: "100%", textAlign: "center" }}>
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              Bienvenido, {user.email}
-            </Typography>
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 2,
-                py: 1.5,
-                bgcolor: "#FF0000",
-                "&:hover": { bgcolor: "#B20000" },
-              }}
-              onClick={handleSignOut}
-            >
-              Cerrar Sesión
-            </Button>
-          </Box>
-        ) : (
-          <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
-            {/* Campo de Correo con Icono */}
-            <TextField
-              fullWidth
-              label="Correo electrónico"
-              type="email"
-              variant="outlined"
-              margin="normal"
-              required
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Email color="action" />
-                  </InputAdornment>
-                ),
-              }}
-            />
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
+          {/* Campo de Correo con Icono */}
+          <TextField
+            fullWidth
+            label="Correo electrónico"
+            type="email"
+            variant="outlined"
+            margin="normal"
+            required
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Email color="action" />
+                </InputAdornment>
+              ),
+            }}
+          />
 
-            {/* Campo de Contraseña con Icono */}
-            <TextField
-              fullWidth
-              label="Contraseña"
-              type="password"
-              variant="outlined"
-              margin="normal"
-              required
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Lock color="action" />
-                  </InputAdornment>
-                ),
-              }}
-            />
+          {/* Campo de Contraseña con Icono */}
+          <TextField
+            fullWidth
+            label="Contraseña"
+            type="password"
+            variant="outlined"
+            margin="normal"
+            required
+            value={formData.password}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock color="action" />
+                </InputAdornment>
+              ),
+            }}
+          />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 2,
-                py: 1.5,
-                bgcolor: "#FF0000",
-                "&:hover": { bgcolor: "#B20000" },
-              }}
-            >
-              Iniciar Sesión
-            </Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{
+              mt: 2,
+              py: 1.5,
+              bgcolor: "#FF0000",
+              "&:hover": { bgcolor: "#B20000" },
+            }}
+          >
+            Iniciar Sesión
+          </Button>
 
+          <Typography
+            variant="body2"
+            sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}
+            onClick={irARecuperarContraseña}
+          >
+            ¿Olvidaste tu contraseña?{" "}
             <Typography
-              variant="body2"
-              sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}
-              onClick={irARecuperarContraseña}
+              component="span"
+              sx={{ color: "#FF0000", fontWeight: "bold" }}
             >
-              ¿Olvidaste tu contraseña?{" "}
-              <Typography
-                component="span"
-                sx={{ color: "#FF0000", fontWeight: "bold" }}
-              >
-                Recupérala aquí
-              </Typography>
+              Recupérala aquí
             </Typography>
+          </Typography>
 
+          <Typography
+            variant="body2"
+            sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}
+            onClick={irARegistro}
+          >
+            ¿Aún no tienes cuenta?{" "}
             <Typography
-              variant="body2"
-              sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}
-              onClick={irARegistro}
+              component="span"
+              sx={{ color: "#FF0000", fontWeight: "bold" }}
             >
-              ¿Aún no tienes cuenta?{" "}
-              <Typography
-                component="span"
-                sx={{ color: "#FF0000", fontWeight: "bold" }}
-              >
-                Regístrate
-              </Typography>
+              Regístrate
             </Typography>
-          </Box>
-        )}
+          </Typography>
+        </Box>
       </Box>
     </Container>
   );

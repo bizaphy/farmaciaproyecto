@@ -161,7 +161,6 @@ const Navbar = () => {
       >
         <StyledLink to="/">Somos</StyledLink>
         <StyledLink to="/productos">Productos</StyledLink>
-        <StyledLink to="/Crear-Productos">Crear Productos</StyledLink>
         <StyledLink to="/login">Login</StyledLink>
         <StyledLink to="/register">Registrarse</StyledLink>
       </Box>

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { CarritoContext , } from "../context/CarritoContext";
+import { CarritoContext } from "../context/CarritoContext";
 import { Card as MuiCard, Typography, Button, Box } from "@mui/material";
 
 const CarritoCard = ({ id, nombre, principio_activo, precio, cantidad }) => {

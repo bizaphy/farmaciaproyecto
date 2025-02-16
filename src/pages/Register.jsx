@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../context/AuthContext";
 import {
   Container,
   Box,
@@ -11,59 +11,26 @@ import {
   InputAdornment,
 } from "@mui/material";
 
-import { Email, Lock, Person } from "@mui/icons-material";
+import { Email, Lock, Person } from "@mui/icons-material"; 
 
 function Register() {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
+    name: "",
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { signUp } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await fetch(
-        "https://farmaciaproyecto.onrender.com/api/users",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData), // Envía los datos del formulario
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Error del backend:", errorData); // Verifica el error del backend
-        throw new Error("Error al registrar el usuario.");
-      }
-
-      const data = await response.json();
-
-      console.log("Usuario registrado:", data);
-      setError("");
+      await signUp(formData);
       navigate("/login");
     } catch (error) {
-      console.error("Error:", error);
-      setError(
-        errorData.message ||
-          "Error al registrar el usuario. Inténtalo de nuevo."
-      );
+      setError(error.message);
     }
-  };
-
-  // Función para manejar cambios en los campos del formulario
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
   };
 
   return (
@@ -98,9 +65,8 @@ function Register() {
             variant="outlined"
             margin="normal"
             required
-            name="name"
             value={formData.name}
-            onChange={handleChange}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -118,9 +84,10 @@ function Register() {
             variant="outlined"
             margin="normal"
             required
-            name="email"
             value={formData.email}
-            onChange={handleChange}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -138,9 +105,10 @@ function Register() {
             variant="outlined"
             margin="normal"
             required
-            name="password"
             value={formData.password}
-            onChange={handleChange}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

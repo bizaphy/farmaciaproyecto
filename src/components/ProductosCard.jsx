@@ -10,23 +10,17 @@ import {
   CardMedia,
 } from "@mui/material";
 
-const ProductosCard = ({
-  id,
-  nombre,
-  principio_activo,
-  precio,
-  imagen_url,
-}) => {
-  const { agregarAlCarrito } = useContext(CarritoContext);
+const ProductosCard = ({ id, nombre, descripcion, precio, imagen_url }) => {
+  const {carrito, agregarAlCarrito } = useContext(CarritoContext);
   const navigate = useNavigate();
-
   const irADetalle = () => {
     navigate(`/producto/${id}`);
   };
+  const productoEnCarrito = carrito.some((item) => item.id === id);
 
   const agregarAlCarro = (e) => {
     e.stopPropagation();
-    agregarAlCarrito({ id, nombre, principio_activo, precio, imagen_url });
+    agregarAlCarrito({ id, nombre, descripcion, precio, imagen_url });
   };
 
   return (
@@ -64,7 +58,7 @@ const ProductosCard = ({
         <Box>
           <Typography variant="h5">{nombre}</Typography>
           <Typography variant="body2" color="text.secondary">
-            <strong>Principio Activo:</strong> {principio_activo}
+            <strong>Descripcion:</strong> {descripcion}
           </Typography>
         </Box>
 
@@ -74,28 +68,27 @@ const ProductosCard = ({
             <strong>Precio:</strong> $
             {precio ? Number(precio).toFixed(2) : "N/A"}
           </Typography>
-         
+
           {productoEnCarrito ? (
             <Typography variant="body2" color="text.secondary">
               Producto en el carrito
             </Typography>
           ) : (
-
-          <Button
-            variant="contained"
-            onClick={agregarAlCarro}
-            sx={{
-              backgroundColor: "#FF0000",
-              color: "white",
-              padding: "8px 16px",
-              borderRadius: "8px",
-              fontWeight: "normal",
-              textTransform: "none",
-              "&:hover": { backgroundColor: "#CC0000" },
-            }}
-          >
-            Agregar al carro
-          </Button>
+            <Button
+              variant="contained"
+              onClick={agregarAlCarro}
+              sx={{
+                backgroundColor: "#FF0000",
+                color: "white",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                fontWeight: "normal",
+                textTransform: "none",
+                "&:hover": { backgroundColor: "#CC0000" },
+              }}
+            >
+              Agregar al carro
+            </Button>
           )}
         </Box>
       </CardContent>

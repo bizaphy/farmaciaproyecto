@@ -113,7 +113,8 @@ const Navbar = () => {
                   },
                 }}
               >
-                <Search style={{ fontSize: "1.5rem" }} /> {/* Icono más grande */}
+                <Search style={{ fontSize: "1.5rem" }} />{" "}
+                {/* Icono más grande */}
               </IconButton>
             </Paper>
           </div>
@@ -125,7 +126,8 @@ const Navbar = () => {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <IconButton>
-                <Person style={{ color: "black", fontSize: "1.5rem" }} /> {/* Icono más grande */}
+                <Person style={{ color: "black", fontSize: "1.5rem" }} />{" "}
+                {/* Icono más grande */}
               </IconButton>
             </Link>
             <Link
@@ -133,7 +135,8 @@ const Navbar = () => {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <IconButton>
-                <ShoppingCart style={{ color: "black", fontSize: "1.5rem" }} /> {/* Icono más grande */}
+                <ShoppingCart style={{ color: "black", fontSize: "1.5rem" }} />{" "}
+                {/* Icono más grande */}
               </IconButton>
             </Link>
           </div>
@@ -158,6 +161,7 @@ const Navbar = () => {
       >
         <StyledLink to="/">Somos</StyledLink>
         <StyledLink to="/productos">Productos</StyledLink>
+        <StyledLink to="/Crear-Productos">Crear Productos</StyledLink>
         <StyledLink to="/login">Login</StyledLink>
         <StyledLink to="/register">Registrarse</StyledLink>
       </Box>

@@ -10,18 +10,35 @@ import {
   CardMedia,
 } from "@mui/material";
 
-const ProductosCard = ({ id, nombre, descripcion, precio, imagen_url }) => {
-  const {carrito, agregarAlCarrito } = useContext(CarritoContext);
+
+const ProductosCard = ({
+  id,
+  nombre,
+  principio_activo,
+  precio,
+  imagen_url,
+}) => {
+  // Extraemos funciones y datos del contexto
+  const { agregarAlCarrito, carrito } = useContext(CarritoContext);
   const navigate = useNavigate();
+
+  // Función para redirigir al detalle del producto
+
   const irADetalle = () => {
     navigate(`/producto/${id}`);
   };
   const productoEnCarrito = carrito.some((item) => item.id === id);
 
+  // Función para agregar un producto al carrito
   const agregarAlCarro = (e) => {
-    e.stopPropagation();
-    agregarAlCarrito({ id, nombre, descripcion, precio, imagen_url });
+
+    e.stopPropagation(); // Evita que se active el evento "onClick" del card
+    agregarAlCarrito({ id, nombre, principio_activo, precio, imagen_url });
+
   };
+
+  // Verificamos si el producto ya está en el carrito
+  const productoEnCarrito = carrito.some((producto) => producto.id === id);
 
   return (
     <MuiCard
@@ -62,7 +79,7 @@ const ProductosCard = ({ id, nombre, descripcion, precio, imagen_url }) => {
           </Typography>
         </Box>
 
-        {/* 📌 Contenedor para precio y botón */}
+        {/* Contenedor para precio y botón */}
         <Box sx={{ mt: "auto", textAlign: "center", pt: 2 }}>
           <Typography variant="body1" sx={{ mb: 2 }}>
             <strong>Precio:</strong> $

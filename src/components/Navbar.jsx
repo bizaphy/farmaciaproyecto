@@ -62,7 +62,7 @@ const Navbar = () => {
               <img
                 src={logo}
                 alt="Logo Botica Virgen de Lourdes"
-                style={{ height: "60px", width: "230px" }}
+                style={{ height: "50px" }}
               />
             </Link>
           </div>

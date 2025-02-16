@@ -33,11 +33,8 @@ const Profile = () => {
 
   // 📌 Función para obtener los datos del perfil desde la base de datos
   const fetchProfile = async () => {
-    const { data } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
-      .single();
+    const response = await fetch(`http://localhost:5000/api/profile/${user.id}`);
+    const data = await response.json();
 
     if (data) {
       setProfile(data);
@@ -49,16 +46,24 @@ const Profile = () => {
     }
   };
 
-  // 📌 Función para actualizar el perfil en la BDD
-  const handleSubmit = async (e) => {
+
+   // 📌 Función para actualizar el perfil en el backend local
+   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { error } = await supabase.from("profiles").upsert({
-      id: user.id,
-      ...formData,
-      updated_at: new Date(),
+    const response = await fetch(`http://localhost:3000/api/profile/${user.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: user.id,
+        ...formData,
+        updated_at: new Date(),
+      }),
     });
 
-    if (!error) {
+    const result = await response.json();
+    if (result.success) {
       setIsEditing(false);
       fetchProfile(); // 📌 Recarga los datos actualizados
     }

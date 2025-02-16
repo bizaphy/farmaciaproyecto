@@ -1,12 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Alert,
+} from "@mui/material";
 
 function CrearProducto() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    title: "",
+    name: "",
     description: "",
     price: "",
     image_url: "",
@@ -17,112 +25,129 @@ function CrearProducto() {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        "https://farmaciaproyecto.onrender.com/api/products",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            nombre: formData.title, // Asegurar que coincida con los campos de la DB
-            descripcion: formData.description,
-            precio: parseFloat(formData.price),
-            image_url: formData.image_url,
-            user_id: user?.id || null, // Si necesitas almacenar el usuario
-          }),
-        }
-      );
+      const token = localStorage.getItem("token"); // Obtener el token de autenticación
+      const response = await fetch("http://localhost:3000/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Incluir el token si es necesario
+        },
+        body: JSON.stringify({
+          nombre: formData.name, // Asegurar que coincida con los campos de la DB
+          descripcion: formData.description,
+          precio: parseFloat(formData.price),
+          image_url: formData.image_url,
+          user_id: user?.id || null, // Si necesitas almacenar el usuario
+        }),
+      });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Error al crear el producto");
+        throw new Error("Error al crear el producto");
       }
-
-      navigate("/gallery"); // Redirigir después de éxito
+      navigate("/productos"); // Redirigir después de éxito
+      const data = await response.json();
+      return data;
     } catch (error) {
       setError(error.message);
     }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-6">Crear Nueva Publicación</h2>
+    <Container maxWidth="sm">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          mt: 8,
+          p: 4,
+          borderRadius: 2,
+          boxShadow: 3,
+          bgcolor: "white",
+        }}
+      >
+        <Typography variant="h4" fontWeight="bold" color="black" gutterBottom>
+          Crear Nueva Publicación
+        </Typography>
 
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {error && (
+          <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
+            {error}
+          </Alert>
+        )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Título
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.title}
-              onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
-              }
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
-            />
-          </div>
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
+          <TextField
+            fullWidth
+            label="Nombre"
+            variant="outlined"
+            margin="normal"
+            required
+            value={formData.name}
+            onChange={(e) =>
+              setFormData({ ...formData, name: e.target.value })
+            }
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Descripción
-            </label>
-            <textarea
-              required
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-              rows="4"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
-            />
-          </div>
+          <TextField
+            fullWidth
+            label="Descripción"
+            variant="outlined"
+            margin="normal"
+            required
+            multiline
+            rows={4}
+            value={formData.description}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Precio
-            </label>
-            <input
-              type="number"
-              required
-              value={formData.price}
-              onChange={(e) =>
-                setFormData({ ...formData, price: e.target.value })
-              }
-              step="0.01"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
-            />
-          </div>
+          <TextField
+            fullWidth
+            label="Precio"
+            type="number"
+            variant="outlined"
+            margin="normal"
+            required
+            value={formData.price}
+            onChange={(e) =>
+              setFormData({ ...formData, price: e.target.value })
+            }
+            InputProps={{
+              inputProps: { step: "0.01" },
+            }}
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              URL de la imagen
-            </label>
-            <input
-              type="url"
-              required
-              value={formData.image_url}
-              onChange={(e) =>
-                setFormData({ ...formData, image_url: e.target.value })
-              }
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
-            />
-          </div>
+          <TextField
+            fullWidth
+            label="URL de la imagen"
+            type="url"
+            variant="outlined"
+            margin="normal"
+            required
+            value={formData.image_url}
+            onChange={(e) =>
+              setFormData({ ...formData, image_url: e.target.value })
+            }
+          />
 
-          <button
+          <Button
             type="submit"
-            className="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            fullWidth
+            variant="contained"
+            sx={{
+              mt: 2,
+              py: 1.5,
+              bgcolor: "#FF0000",
+              "&:hover": { bgcolor: "#45a049" },
+            }}
           >
             Publicar
-          </button>
-        </form>
-      </div>
-    </div>
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 }
 

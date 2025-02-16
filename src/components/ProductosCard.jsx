@@ -10,6 +10,7 @@ import {
   CardMedia,
 } from "@mui/material";
 
+
 const ProductosCard = ({
   id,
   nombre,
@@ -22,14 +23,18 @@ const ProductosCard = ({
   const navigate = useNavigate();
 
   // Función para redirigir al detalle del producto
+
   const irADetalle = () => {
     navigate(`/producto/${id}`);
   };
+  const productoEnCarrito = carrito.some((item) => item.id === id);
 
   // Función para agregar un producto al carrito
   const agregarAlCarro = (e) => {
+
     e.stopPropagation(); // Evita que se active el evento "onClick" del card
     agregarAlCarrito({ id, nombre, principio_activo, precio, imagen_url });
+
   };
 
   // Verificamos si el producto ya está en el carrito
@@ -70,7 +75,7 @@ const ProductosCard = ({
         <Box>
           <Typography variant="h5">{nombre}</Typography>
           <Typography variant="body2" color="text.secondary">
-            <strong>Principio Activo:</strong> {principio_activo}
+            <strong>Descripcion:</strong> {descripcion}
           </Typography>
         </Box>
 
@@ -81,7 +86,6 @@ const ProductosCard = ({
             {precio ? Number(precio).toFixed(2) : "N/A"}
           </Typography>
 
-          {/* Mostrar mensaje si el producto ya está en el carrito */}
           {productoEnCarrito ? (
             <Typography variant="body2" color="text.secondary">
               Producto en el carrito

@@ -19,7 +19,7 @@ function Login() {
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { signIn, signOut, user } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +37,11 @@ function Login() {
 
   const irARegistro = () => {
     navigate("/register");
+  };
+
+  const handleSignOut = () => {
+    signOut();
+    navigate("/login"); // Redirige al usuario a la página de login después de cerrar sesión
   };
 
   return (
@@ -63,91 +68,112 @@ function Login() {
           </Alert>
         )}
 
-        <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
-          {/* Campo de Correo con Icono */}
-          <TextField
-            fullWidth
-            label="Correo electrónico"
-            type="email"
-            variant="outlined"
-            margin="normal"
-            required
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Email color="action" />
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          {/* Campo de Contraseña con Icono */}
-          <TextField
-            fullWidth
-            label="Contraseña"
-            type="password"
-            variant="outlined"
-            margin="normal"
-            required
-            value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Lock color="action" />
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
-              mt: 2,
-              py: 1.5,
-              bgcolor: "#FF0000",
-              "&:hover": { bgcolor: "#B20000" },
-            }}
-          >
-            Iniciar Sesión
-          </Button>
-
-          <Typography
-            variant="body2"
-            sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}
-            onClick={irARecuperarContraseña}
-          >
-            ¿Olvidaste tu contraseña?{" "}
-            <Typography
-              component="span"
-              sx={{ color: "#FF0000", fontWeight: "bold" }}
-            >
-              Recupérala aquí
+        {user ? (
+          <Box sx={{ width: "100%", textAlign: "center" }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              Bienvenido, {user.email}
             </Typography>
-          </Typography>
-
-          <Typography
-            variant="body2"
-            sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}
-            onClick={irARegistro}
-          >
-            ¿Aún no tienes cuenta?{" "}
-            <Typography
-              component="span"
-              sx={{ color: "#FF0000", fontWeight: "bold" }}
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{
+                mt: 2,
+                py: 1.5,
+                bgcolor: "#FF0000",
+                "&:hover": { bgcolor: "#B20000" },
+              }}
+              onClick={handleSignOut}
             >
-              Regístrate
+              Cerrar Sesión
+            </Button>
+          </Box>
+        ) : (
+          <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
+            {/* Campo de Correo con Icono */}
+            <TextField
+              fullWidth
+              label="Correo electrónico"
+              type="email"
+              variant="outlined"
+              margin="normal"
+              required
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Email color="action" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            {/* Campo de Contraseña con Icono */}
+            <TextField
+              fullWidth
+              label="Contraseña"
+              type="password"
+              variant="outlined"
+              margin="normal"
+              required
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock color="action" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mt: 2,
+                py: 1.5,
+                bgcolor: "#FF0000",
+                "&:hover": { bgcolor: "#B20000" },
+              }}
+            >
+              Iniciar Sesión
+            </Button>
+
+            <Typography
+              variant="body2"
+              sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}
+              onClick={irARecuperarContraseña}
+            >
+              ¿Olvidaste tu contraseña?{" "}
+              <Typography
+                component="span"
+                sx={{ color: "#FF0000", fontWeight: "bold" }}
+              >
+                Recupérala aquí
+              </Typography>
             </Typography>
-          </Typography>
-        </Box>
+
+            <Typography
+              variant="body2"
+              sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}
+              onClick={irARegistro}
+            >
+              ¿Aún no tienes cuenta?{" "}
+              <Typography
+                component="span"
+                sx={{ color: "#FF0000", fontWeight: "bold" }}
+              >
+                Regístrate
+              </Typography>
+            </Typography>
+          </Box>
+        )}
       </Box>
     </Container>
   );

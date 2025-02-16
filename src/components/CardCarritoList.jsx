@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { CarritoContext } from "../context/CarritoContext";
 import CarritoCard from "./CarritoCard";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 
 const CardCarritoList = () => {
   const { carrito, calcularTotal } = useContext(CarritoContext);
 
   const handlePagar = () => {
     alert("Redirigiendo al proceso de pago...");
-    };
+  };
 
   return (
     <Box
@@ -37,10 +37,17 @@ const CardCarritoList = () => {
           <Typography variant="h6" sx={{ marginTop: 2 }}>
             <strong>Total:</strong> ${calcularTotal().toFixed(2)}
           </Typography>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            sx={{ marginTop: 2 }}
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              backgroundColor: "#FF0000",
+              "&:hover": { backgroundColor: "#CC0000" },
+              marginTop: 2,
+              fontWeight: "normal",
+              textTransform: "none",
+              fontSize: 18,
+            }}
             onClick={handlePagar}
           >
             Pagar

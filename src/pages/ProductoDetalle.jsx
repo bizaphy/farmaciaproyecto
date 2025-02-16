@@ -130,7 +130,7 @@ const ProductoDetalle = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            justifyContent: "space-between", // Añadido para empujar el botón abajo
+            justifyContent: "space-between",
             gap: 2,
             boxSizing: "border-box",
             p: 3,

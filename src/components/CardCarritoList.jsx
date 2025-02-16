@@ -6,6 +6,10 @@ import { Box, Typography } from "@mui/material";
 const CardCarritoList = () => {
   const { carrito, calcularTotal } = useContext(CarritoContext);
 
+  const handlePagar = () => {
+    alert("Redirigiendo al proceso de pago...");
+    };
+
   return (
     <Box
       display="flex"
@@ -33,6 +37,14 @@ const CardCarritoList = () => {
           <Typography variant="h6" sx={{ marginTop: 2 }}>
             <strong>Total:</strong> ${calcularTotal().toFixed(2)}
           </Typography>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            sx={{ marginTop: 2 }}
+            onClick={handlePagar}
+          >
+            Pagar
+          </Button>
         </>
       )}
     </Box>

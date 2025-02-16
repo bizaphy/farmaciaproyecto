@@ -14,8 +14,8 @@ const ProductosCard = ({
   id,
   nombre,
   principio_activo,
-  descripcion,
   precio,
+  descripcion,
   imagen_url,
 }) => {
   // Extraemos funciones y datos del contexto
@@ -71,9 +71,7 @@ const ProductosCard = ({
       >
         <Box>
           <Typography variant="h5">{nombre}</Typography>
-          <Typography variant="body2" color="text.secondary">
-            <strong>Descripcion:</strong> {descripcion}
-          </Typography>
+          <Typography variant="body2" color="text.secondary"></Typography>
         </Box>
 
         {/* Contenedor para precio y botón */}

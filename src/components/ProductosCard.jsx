@@ -10,7 +10,6 @@ import {
   CardMedia,
 } from "@mui/material";
 
-
 const ProductosCard = ({
   id,
   nombre,
@@ -31,14 +30,11 @@ const ProductosCard = ({
 
   // Función para agregar un producto al carrito
   const agregarAlCarro = (e) => {
-
     e.stopPropagation(); // Evita que se active el evento "onClick" del card
     agregarAlCarrito({ id, nombre, principio_activo, precio, imagen_url });
-
   };
 
   // Verificamos si el producto ya está en el carrito
-  const productoEnCarrito = carrito.some((producto) => producto.id === id);
 
   return (
     <MuiCard

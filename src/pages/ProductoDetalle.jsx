@@ -9,6 +9,7 @@ const ProductoDetalle = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const { agregarAlCarrito } = useContext(CarritoContext);
+  const [zoomStyle, setZoomStyle] = useState({ transform: "scale(1)" });
 
   useEffect(() => {
     fetch(`https://farmaciaproyecto.onrender.com/api/products/${id}`)
@@ -30,18 +31,20 @@ const ProductoDetalle = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  const agregarAlCarro = () => {
-    if (!producto) return;
-
-    agregarAlCarrito({
-      id: producto.id,
-      nombre: producto.nombre,
-      principio_activo: producto.principio_activo,
-      precio: producto.precio,
-      imagen_url: producto.imagen_url,
+  //Codigo para el zoom
+  const handleMouseMove = (event) => {
+    const { clientX, clientY, target } = event.nativeEvent;
+    const { left, top, width, height } = target.getBoundingClientRect();
+    const xPercent = ((clientX - left) / width) * 100;
+    const yPercent = ((clientY - top) / height) * 100;
+    setZoomStyle({
+      transform: "scale(2)",
+      transformOrigin: `${xPercent}% ${yPercent}%`,
     });
+  };
 
-    console.log(`Producto agregado al carrito: ${producto.nombre}`);
+  const resetZoom = () => {
+    setZoomStyle({ transform: "scale(1)" });
   };
 
   if (loading || error || !producto) {
@@ -69,11 +72,12 @@ const ProductoDetalle = () => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: { xs: "column", md: "row" }, // responsividad en movil
+          flexDirection: { xs: "column", md: "row" },
           width: "90%",
           maxWidth: 1100,
-          gap: 3, // Espacio entre Bloque 1 y Bloque 2
+          gap: 3,
           boxSizing: "border-box",
+          alignItems: "stretch",
         }}
       >
         {/* Bloque 1: Imagen */}
@@ -84,22 +88,39 @@ const ProductoDetalle = () => {
             justifyContent: "center",
             alignItems: "center",
             boxShadow:
-              "0px 1px 9px rgba(0, 0, 0, 0.12), 0px 1px 9px rgba(0, 0, 0, 0.12)", // Sombra igual a la de MuiCard
+              "0px 1px 9px rgba(0, 0, 0, 0.12), 0px 1px 9px rgba(0, 0, 0, 0.12)",
             borderRadius: "8px",
             backgroundColor: "white",
             p: 3,
+            overflow: "hidden",
           }}
         >
-          <img
-            src={producto.imagen_url}
-            alt={producto.nombre}
-            style={{
+          <Box
+            sx={{
               width: "100%",
+              height: "100%",
               maxWidth: 500,
               maxHeight: 400,
-              objectFit: "contain",
+              overflow: "hidden",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          />
+          >
+            <img
+              src={producto.imagen_url}
+              alt={producto.nombre}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={resetZoom}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                transition: "transform 0.3s ease-in-out",
+                ...zoomStyle,
+              }}
+            />
+          </Box>
         </Box>
 
         {/* Bloque 2: Información del producto */}
@@ -109,73 +130,68 @@ const ProductoDetalle = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            justifyContent: "flex-start",
+            justifyContent: "space-between", // Añadido para empujar el botón abajo
             gap: 2,
             boxSizing: "border-box",
             p: 3,
             boxShadow:
-              "0px 1px 9px rgba(0, 0, 0, 0.12), 0px 1px 9px rgba(0, 0, 0, 0.12)", // Sombra similar a MuiCard
+              "0px 1px 9px rgba(0, 0, 0, 0.12), 0px 1px 9px rgba(0, 0, 0, 0.12)",
             borderRadius: "8px",
             backgroundColor: "white",
           }}
         >
-          <Typography variant="h4" fontWeight="bold">
-            {producto.nombre}
-          </Typography>
-          <Typography variant="h5" color="text.secondary">
-            <strong>Principio activo:</strong> {producto.principio_activo}
-          </Typography>
-          <Typography variant="h5">
-            <strong>Precio:</strong> $
-            {producto.precio ? Number(producto.precio).toFixed(2) : "N/A"}
-          </Typography>
-
-          <Box
+          <div>
+            {" "}
+            {/* Contenedor para los textos */}
+            <Typography variant="h4" fontWeight="bold">
+              {producto.nombre}
+            </Typography>
+            <Typography variant="h5" color="text.secondary">
+              <strong>Principio activo:</strong> {producto.principio_activo}
+            </Typography>
+            <Typography variant="h5">
+              <strong>Precio:</strong> $
+              {producto.precio ? Number(producto.precio).toFixed(2) : "N/A"}
+            </Typography>
+          </div>
+          <Button
+            variant="contained"
+            onClick={() => agregarAlCarrito(producto)}
             sx={{
+              backgroundColor: "#FF0000",
+              color: "white",
+              padding: "12px 20px",
+              fontSize: "1.2rem",
+              borderRadius: "8px",
+              fontWeight: "bold",
+              textTransform: "none",
               width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "auto",
+              alignSelf: "flex-end",
+              "&:hover": { backgroundColor: "#CC0000" },
             }}
           >
-            <Button
-              variant="contained"
-              onClick={agregarAlCarro}
-              sx={{
-                backgroundColor: "#FF0000",
-                color: "white",
-                padding: "12px 20px",
-                fontSize: "1.2rem",
-                borderRadius: "8px",
-                fontWeight: "bold",
-                textTransform: "none",
-                "&:hover": { backgroundColor: "#CC0000" },
-              }}
-            >
-              Agregar al carrito
-            </Button>
-          </Box>
+            Agregar al carrito
+          </Button>
         </Box>
       </Box>
 
-      {/* Bloque 3: Descripción (100% de ancho) */}
+      {/* Bloque 3: Descripción */}
       <Box
         sx={{
-          width: "90%", // Mismo ancho que los bloques superiores
-          maxWidth: 1100, // Mantiene proporción con los otros bloques
+          width: "90%",
+          maxWidth: 1100,
           backgroundColor: "#f9f9f9",
           boxSizing: "border-box",
           boxShadow:
-            "0px 1px 9px rgba(0, 0, 0, 0.12), 0px 1px 9px rgba(0, 0, 0, 0.13)", // Sombra MuiCard
+            "0px 1px 9px rgba(0, 0, 0, 0.12), 0px 1px 9px rgba(0, 0, 0, 0.13)",
           borderRadius: "8px",
+          p: 3,
         }}
       >
-        <Box sx={{ p: 3 }}>
-          <Typography variant="h5" color="text.primary">
-            <strong>Descripción:</strong>{" "}
-            {producto.descripcion || "Sin descripción disponible."}
-          </Typography>
-        </Box>
+        <Typography variant="h5" color="text.primary">
+          <strong>Descripción:</strong>{" "}
+          {producto.descripcion || "Sin descripción disponible."}
+        </Typography>
       </Box>
     </Box>
   );

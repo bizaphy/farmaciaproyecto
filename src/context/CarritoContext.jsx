@@ -22,13 +22,16 @@ export const CarritoProvider = ({ children }) => {
     }
     console.log("✅ Token enviado en fetchCarrito:", token);
     try {
-      const response = await fetch("http://localhost:3000/cart", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://farmaciaproyecto.onrender.com/api/cart",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Error al obtener el carrito: ${response.status}`);

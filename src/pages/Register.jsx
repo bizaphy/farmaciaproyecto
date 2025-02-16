@@ -26,13 +26,16 @@ function Register() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData), // Envía los datos del formulario
-      });
+      const response = await fetch(
+        "https://farmaciaproyecto.onrender.com/api/users",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData), // Envía los datos del formulario
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();

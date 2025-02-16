@@ -9,7 +9,7 @@ const ProductosList = () => {
 
   //  useEffect para obtener los productos desde el backend al montar el componente
   useEffect(() => {
-    fetch("http://localhost:3000/products")
+    fetch("https://farmaciaproyecto.onrender.com/api/products")
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error HTTP: ${response.status}`);

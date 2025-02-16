@@ -26,20 +26,23 @@ function CrearProducto() {
 
     try {
       const token = localStorage.getItem("token"); // Obtener el token de autenticación
-      const response = await fetch("http://localhost:3000/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Incluir el token si es necesario
-        },
-        body: JSON.stringify({
-          nombre: formData.name, // Asegurar que coincida con los campos de la DB
-          descripcion: formData.description,
-          precio: parseFloat(formData.price),
-          image_url: formData.image_url,
-          user_id: user?.id || null, // Si necesitas almacenar el usuario
-        }),
-      });
+      const response = await fetch(
+        "https://farmaciaproyecto.onrender.com/api/products",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Incluir el token si es necesario
+          },
+          body: JSON.stringify({
+            nombre: formData.name, // Asegurar que coincida con los campos de la DB
+            descripcion: formData.description,
+            precio: parseFloat(formData.price),
+            image_url: formData.image_url,
+            user_id: user?.id || null, // Si necesitas almacenar el usuario
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Error al crear el producto");
@@ -84,9 +87,7 @@ function CrearProducto() {
             margin="normal"
             required
             value={formData.name}
-            onChange={(e) =>
-              setFormData({ ...formData, name: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
 
           <TextField

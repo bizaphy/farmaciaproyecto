@@ -11,23 +11,41 @@ import {
   InputAdornment,
 } from "@mui/material";
 
-import { Email, Lock, Person } from "@mui/icons-material"; 
+import { Email, Lock, Person, Badge, Phone } from "@mui/icons-material";
 
 function Register() {
   const [formData, setFormData] = useState({
-    email: "",
+    nombre: "",
+    apellido: "",
+    rut: "",
+    telefono: "",
+    correo_electronico: "",
     password: "",
-    name: "",
   });
+
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { signUp } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validaciones de todos los campos
+    if (
+      !formData.nombre ||
+      !formData.apellido ||
+      !formData.rut ||
+      !formData.telefono ||
+      !formData.correo_electronico ||
+      !formData.password
+    ) {
+      setError("Todos los campos son obligatorios");
+      return;
+    }
+
     try {
       await signUp(formData);
-      navigate("/login");
+      navigate("/login"); // Redirigir al login después del registro exitoso
     } catch (error) {
       setError(error.message);
     }
@@ -58,15 +76,16 @@ function Register() {
         )}
 
         <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
-          {/* Campo de Nombre Completo con Icono */}
           <TextField
             fullWidth
-            label="Nombre completo"
+            label="Nombre"
             variant="outlined"
             margin="normal"
             required
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            value={formData.nombre}
+            onChange={(e) =>
+              setFormData({ ...formData, nombre: e.target.value })
+            }
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -76,7 +95,62 @@ function Register() {
             }}
           />
 
-          {/* Campo de Correo con Icono */}
+          <TextField
+            fullWidth
+            label="Apellido"
+            variant="outlined"
+            margin="normal"
+            required
+            value={formData.apellido}
+            onChange={(e) =>
+              setFormData({ ...formData, apellido: e.target.value })
+            }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Person color="action" />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <TextField
+            fullWidth
+            label="RUT"
+            variant="outlined"
+            margin="normal"
+            required
+            value={formData.rut}
+            onChange={(e) => setFormData({ ...formData, rut: e.target.value })}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Badge color="action" />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <TextField
+            fullWidth
+            label="Teléfono"
+            type="tel"
+            variant="outlined"
+            margin="normal"
+            required
+            value={formData.telefono}
+            onChange={(e) =>
+              setFormData({ ...formData, telefono: e.target.value })
+            }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Phone color="action" />
+                </InputAdornment>
+              ),
+            }}
+          />
+
           <TextField
             fullWidth
             label="Correo electrónico"
@@ -84,9 +158,9 @@ function Register() {
             variant="outlined"
             margin="normal"
             required
-            value={formData.email}
+            value={formData.correo_electronico}
             onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
+              setFormData({ ...formData, correo_electronico: e.target.value })
             }
             InputProps={{
               startAdornment: (
@@ -97,7 +171,6 @@ function Register() {
             }}
           />
 
-          {/* Campo de Contraseña con Icono */}
           <TextField
             fullWidth
             label="Contraseña"

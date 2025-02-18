@@ -10,31 +10,38 @@ import {
   Alert,
   InputAdornment,
 } from "@mui/material";
-import { Email, Lock } from "@mui/icons-material"; // Importar iconos
+import { Email, Lock } from "@mui/icons-material"; // Importacion de iconos
 
 function Login() {
+  // State para almacenar los datos del formulario
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const [error, setError] = useState(""); // State para manejar errores de auth.
+  const navigate = useNavigate(); // Hook para navegar entre paginas
+  const { signIn } = useAuth(); // Obtiene la FX. de inicio de sesión del AuthContext. (PROPS salen correctamente desde ahi)
 
+  // Handles para el manejo del envio del formulario
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Evitamos el comportamiento default
     try {
-      await signIn(formData);
-      navigate("/");
+      await signIn({
+        email: formData.email, // Enviados como correo_electronico
+        password: formData.password,
+      });
+      navigate("/perfil"); // Redireccion a perfil tras el ingreso
     } catch (error) {
-      setError(error.message);
+      setError(error.message); // Muestra error en caso de existir fallo en autentificacion.
     }
   };
 
+  // FX. para redirigir a pag. de recuperación de contraseña
   const irARecuperarContraseña = () => {
     navigate("/recuperar-contrasena");
   };
 
+  // FX. para redirigir a la pág. de registro
   const irARegistro = () => {
     navigate("/register");
   };
@@ -53,18 +60,21 @@ function Login() {
           bgcolor: "white",
         }}
       >
+        {/* SECTOR DE TITULO */}
         <Typography variant="h4" fontWeight="bold" color="black" gutterBottom>
           Iniciar Sesión
         </Typography>
 
+        {/* Mensaje de error */}
         {error && (
           <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
             {error}
           </Alert>
         )}
 
+        {/* INGRESO DE DATOS */}
         <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
-          {/* Campo de Correo con Icono */}
+          {/* Campo de Correo + Icono */}
           <TextField
             fullWidth
             label="Correo electrónico"
@@ -85,7 +95,7 @@ function Login() {
             }}
           />
 
-          {/* Campo de Contraseña con Icono */}
+          {/* Campo de Contraseña + Icono */}
           <TextField
             fullWidth
             label="Contraseña"
@@ -106,6 +116,7 @@ function Login() {
             }}
           />
 
+          {/* Boton para enviar el formulario de Login */}
           <Button
             type="submit"
             fullWidth
@@ -120,6 +131,7 @@ function Login() {
             Iniciar Sesión
           </Button>
 
+          {/* Enlace para recuperar contraseña
           <Typography
             variant="body2"
             sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}
@@ -132,8 +144,9 @@ function Login() {
             >
               Recupérala aquí
             </Typography>
-          </Typography>
+          </Typography> */}
 
+          {/* Enlace para redirigir a la página de registro */}
           <Typography
             variant="body2"
             sx={{ mt: 2, textAlign: "center", cursor: "pointer" }}

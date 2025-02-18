@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Somos from "./pages/Somos";
@@ -9,36 +9,29 @@ import Carrito from "./pages/Carrito";
 import Productos from "./pages/Productos";
 import Perfil from "./pages/Perfil";
 import ProductoDetalle from "./pages/ProductoDetalle";
-import CrearProductos from "./pages/CrearProductos";
+
 import { CarritoProvider } from "./context/CarritoContext"; // Importacion del proveedor del carrito
-import RecuperarContrasena from "./pages/RecuperarContrasena";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 const App = () => {
   return (
     <div style={styles.app}>
       <CarritoProvider>
-        <Router>
-          <Navbar />
-          {/* 🔹 Contenedor principal. (Este contenedor empuja el footer hacia abajo) */}
-          <div style={styles.content}>
-            <Routes>
-              <Route path="/" element={<Somos />} />
-              <Route path="/login" element={<Login />} />
-              <Route
-                path="/recuperar-contrasena"
-                element={<RecuperarContrasena />}
-              />
-              <Route path="/register" element={<Registrar />} />
-              <Route path="/carrito" element={<Carrito />} />
-              <Route path="/productos" element={<Productos />} />
-              <Route path="/perfil" element={<Perfil />} />{" "}
-              <Route path="/producto/:id" element={<ProductoDetalle />} />
-              <Route path="/crearproducto" element={<CrearProductos />} />
-            </Routes>
-          </div>
-          <Footer />
-        </Router>
+        <Navbar />
+        {/* 🔹 Contenedor principal. (Este contenedor empuja el footer hacia abajo) */}
+        <div style={styles.content}>
+          <Routes>
+            <Route path="/" element={<Somos />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Registrar />} />
+            <Route path="/carrito" element={<Carrito />} />
+            <Route path="/productos" element={<Productos />} />
+            <Route path="/perfil" element={<Perfil />} />{" "}
+            <Route path="/producto/:id" element={<ProductoDetalle />} />
+          </Routes>
+        </div>
+        <Footer />
       </CarritoProvider>
     </div>
   );

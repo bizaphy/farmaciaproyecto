@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 const AuthContext = createContext();
 
 // 📌 URL BASE DEL BACKEND --> RENDER
-const API_URL = "https://farmaciaproyecto.onrender.com/api/";
+const API_URL = "https://farmaciaproyecto.onrender.com/api/auth";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

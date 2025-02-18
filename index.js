@@ -78,7 +78,8 @@ app.get("/api/products/:id", async (req, res) => {
     res.status(500).json({ message: "Error del servidor" });
   }
 });
-
+console.log("📌 Cargando rutas de autenticación...");
+app.use("/api/auth", authRoutes);
 // 📌 Rutas de Autenticación
 app.use("/api/auth", authRoutes);
 

@@ -80,7 +80,7 @@ app.get("/api/products/:id", async (req, res) => {
 });
 
 // 📌 Rutas de Autenticación
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 
 // 📌 Middleware para manejar rutas no encontradas (404)
 app.use((req, res) => {

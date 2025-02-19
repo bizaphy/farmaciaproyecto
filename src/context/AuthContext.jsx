@@ -34,15 +34,15 @@ export const AuthProvider = ({ children }) => {
 
   // 📌 INICIAR SESIÓN (LOGIN)
   const signIn = async ({ email, password }) => {
-    // Ahora recibe un objeto
     try {
       const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ correo_electronico: email, password }), // Enviar correo_electronico
+        body: JSON.stringify({ correo_electronico: email, password }),
       });
 
       const data = await response.json();
+      console.log("✅ Datos recibidos en signIn:", data); // Debug
 
       if (!response.ok) {
         throw new Error(data.message || "Error en el inicio de sesión");
@@ -54,6 +54,7 @@ export const AuthProvider = ({ children }) => {
       // Guardar usuario en el estado
       setUser({
         id: data.id,
+        nombre: data.nombre, // 📌 Agregado
         correo_electronico: data.correo_electronico,
       });
     } catch (error) {

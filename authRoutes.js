@@ -14,7 +14,7 @@ const pool = new Pool({
 
 // 📌 Endpoint para REGISTRAR usuario
 router.post("/register", async (req, res) => {
-  console.log("📩 Datos recibidos:", req.body); // 👈 Verifica que los datos llegan correctamente
+  console.log("📩 Datos recibidos en registro:", req.body);
 
   const { nombre, apellido, rut, telefono, correo_electronico, password } =
     req.body;
@@ -75,9 +75,13 @@ router.post("/register", async (req, res) => {
 
     console.log("✅ Usuario registrado con éxito:", newUser.rows[0]);
 
-    res.status(201).json({ message: "Usuario registrado con éxito", token });
+    res.status(201).json({
+      message: "Usuario registrado con éxito",
+      token,
+      user: newUser.rows[0], // ✅ Enviar usuario completo en la respuesta
+    });
   } catch (error) {
-    console.error("❌ Error en el servidor:", error);
+    console.error("❌ Error en el servidor (Registro):", error);
     res
       .status(500)
       .json({ message: "Error en el servidor", error: error.message });
@@ -87,21 +91,24 @@ router.post("/register", async (req, res) => {
 // 📌 Endpoint para INICIAR SESIÓN (LOGIN)
 router.post("/login", async (req, res) => {
   const { correo_electronico, password } = req.body;
+  console.log("📩 Intento de inicio de sesión:", correo_electronico);
 
   try {
     // Verificar si el usuario existe
     const user = await pool.query(
-      "SELECT * FROM usuarios WHERE correo_electronico = $1",
+      "SELECT id, nombre, apellido, correo_electronico, password FROM usuarios WHERE correo_electronico = $1",
       [correo_electronico]
     );
 
     if (user.rows.length === 0) {
+      console.log("❌ Usuario no encontrado:", correo_electronico);
       return res.status(400).json({ message: "Usuario no encontrado" });
     }
 
-    // Comparador de pass hasheada
+    // Comparar la contraseña hasheada
     const validPassword = await bcrypt.compare(password, user.rows[0].password);
     if (!validPassword) {
+      console.log("❌ Contraseña incorrecta para:", correo_electronico);
       return res.status(400).json({ message: "Contraseña incorrecta" });
     }
 
@@ -115,9 +122,19 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ message: "Inicio de sesión exitoso", token });
+    console.log("✅ Usuario autenticado:", user.rows[0]);
+
+    // ✅ Devolver también el nombre y apellido
+    res.status(200).json({
+      message: "Inicio de sesión exitoso",
+      token,
+      id: user.rows[0].id,
+      nombre: user.rows[0].nombre,
+      apellido: user.rows[0].apellido,
+      correo_electronico: user.rows[0].correo_electronico,
+    });
   } catch (error) {
-    console.error("❌ Error en el servidor:", error);
+    console.error("❌ Error en el servidor (Login):", error);
     res.status(500).json({ message: "Error en el servidor" });
   }
 });

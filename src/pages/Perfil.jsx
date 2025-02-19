@@ -10,7 +10,7 @@ function Perfil() {
     signOut();
     navigate("/login");
   };
-
+  console.log("🧑 Datos del usuario:", user);
   return (
     <Container maxWidth="sm">
       <Box

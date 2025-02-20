@@ -38,6 +38,7 @@ function CrearProducto() {
   });
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   // 📌 Manejo del envío del formulario
   const handleSubmit = async (e) => {
@@ -69,7 +70,27 @@ function CrearProducto() {
         throw new Error(errorData.message || "Error al crear el producto");
       }
 
-      navigate("/gallery"); // Redirigir después de éxito
+      // 📌 Mostrar mensaje de éxito
+      setSuccess(true);
+      setError("");
+
+      // 📌 Limpiar el formulario tras creacion correcta
+      setFormData({
+        nombre: "",
+        principio_activo: "",
+        dosis: "",
+        descripcion: "",
+        precio: "",
+        imagen_url: "",
+        stock: "",
+        laboratorio: "",
+      });
+
+      // 📌 Redirigir nuevamente para seguir creando
+      setTimeout(() => {
+        setSuccess(false); // Ocultar tras unos segundos
+        navigate("/crearproducto");
+      }, 3000); // ⏰ 3 segundos de tiempo de espera
     } catch (error) {
       setError(error.message);
     }
@@ -96,6 +117,12 @@ function CrearProducto() {
         {error && (
           <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
             {error}
+          </Alert>
+        )}
+
+        {success && (
+          <Alert severity="success" sx={{ width: "100%", mb: 2 }}>
+            Producto creado con éxito 🎉
           </Alert>
         )}
 
@@ -198,68 +225,6 @@ function CrearProducto() {
               startAdornment: (
                 <InputAdornment position="start">
                   <AttachMoney color="action" />
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          {/* 📌 URL de la imagen */}
-          <TextField
-            fullWidth
-            label="URL de la imagen"
-            variant="outlined"
-            margin="normal"
-            required
-            type="url"
-            value={formData.imagen_url}
-            onChange={(e) =>
-              setFormData({ ...formData, imagen_url: e.target.value })
-            }
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Image color="action" />
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          {/* 📌 Stock */}
-          <TextField
-            fullWidth
-            label="Stock"
-            variant="outlined"
-            margin="normal"
-            required
-            type="number"
-            value={formData.stock}
-            onChange={(e) =>
-              setFormData({ ...formData, stock: e.target.value })
-            }
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Layers color="action" />
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          {/* 📌 Laboratorio */}
-          <TextField
-            fullWidth
-            label="Laboratorio"
-            variant="outlined"
-            margin="normal"
-            required
-            value={formData.laboratorio}
-            onChange={(e) =>
-              setFormData({ ...formData, laboratorio: e.target.value })
-            }
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Store color="action" />
                 </InputAdornment>
               ),
             }}

@@ -74,7 +74,7 @@ function CrearProducto() {
       setSuccess(true);
       setError("");
 
-      // 📌 Limpiar el formulario tras creacion correcta
+      // 📌 Limpiar el formulario tras creación correcta
       setFormData({
         nombre: "",
         principio_activo: "",
@@ -230,7 +230,68 @@ function CrearProducto() {
             }}
           />
 
-          {/* 📌 Botón para enviar */}
+          {/* 📌 URL de la imagen */}
+          <TextField
+            fullWidth
+            label="URL de la imagen"
+            variant="outlined"
+            margin="normal"
+            required
+            type="url"
+            value={formData.imagen_url}
+            onChange={(e) =>
+              setFormData({ ...formData, imagen_url: e.target.value })
+            }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Image color="action" />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          {/* 📌 Stock */}
+          <TextField
+            fullWidth
+            label="Stock"
+            variant="outlined"
+            margin="normal"
+            required
+            type="number"
+            value={formData.stock}
+            onChange={(e) =>
+              setFormData({ ...formData, stock: e.target.value })
+            }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Layers color="action" />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          {/* 📌 Laboratorio */}
+          <TextField
+            fullWidth
+            label="Laboratorio"
+            variant="outlined"
+            margin="normal"
+            required
+            value={formData.laboratorio}
+            onChange={(e) =>
+              setFormData({ ...formData, laboratorio: e.target.value })
+            }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Store color="action" />
+                </InputAdornment>
+              ),
+            }}
+          />
+
           <Button
             type="submit"
             fullWidth

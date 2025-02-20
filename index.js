@@ -83,27 +83,29 @@ app.get("/api/products/:id", async (req, res) => {
 ////
 // 📌 Ruta para CREAR un nuevo producto
 app.post("/api/products", async (req, res) => {
-  console.log("📌 Recibida solicitud POST en /api/products"); // 👈 NUEVA LÍNEA
+  console.log("📌 Recibida solicitud POST en /api/products");
+  console.log("📌 Datos recibidos:", req.body); // 👈 Imprime los datos recibidos
 
   try {
-    const { nombre, descripcion, precio, imagen_url } = req.body;
+    let { nombre, principio_activo, descripcion, precio, imagen_url } =
+      req.body;
 
-    // Validar datos
-    if (!nombre || !descripcion || !precio || !imagen_url) {
-      console.log("❌ Error: Campos faltantes"); // 👈 NUEVA LÍNEA
-      return res
-        .status(400)
-        .json({ message: "Todos los campos son obligatorios" });
+    // 🔹 Si `principio_activo` no existe en `req.body`, Express no lo está procesando correctamente
+    if (!principio_activo) {
+      console.log(
+        "⚠️ Advertencia: `principio_activo` no recibido, asignando valor 'Desconocido'"
+      );
+      principio_activo = "Desconocido"; // 👈 Valor predeterminado
     }
 
-    // Insertar producto en la base de datos
     const insertQuery = `
-      INSERT INTO productos (nombre, descripcion, precio, imagen_url) 
-      VALUES ($1, $2, $3, $4) RETURNING *;
+      INSERT INTO productos (nombre, principio_activo, descripcion, precio, imagen_url) 
+      VALUES ($1, $2, $3, $4, $5) RETURNING *;
     `;
 
     const newProduct = await pool.query(insertQuery, [
       nombre,
+      principio_activo,
       descripcion,
       precio,
       imagen_url,

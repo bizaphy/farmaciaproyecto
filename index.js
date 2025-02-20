@@ -78,8 +78,53 @@ app.get("/api/products/:id", async (req, res) => {
     res.status(500).json({ message: "Error del servidor" });
   }
 });
+
+////
+////
+// 📌 Ruta para CREAR un nuevo producto
+app.post("/api/products", async (req, res) => {
+  console.log("📌 Recibida solicitud POST en /api/products"); // 👈 NUEVA LÍNEA
+
+  try {
+    const { nombre, descripcion, precio, imagen_url } = req.body;
+
+    // Validar datos
+    if (!nombre || !descripcion || !precio || !imagen_url) {
+      console.log("❌ Error: Campos faltantes"); // 👈 NUEVA LÍNEA
+      return res
+        .status(400)
+        .json({ message: "Todos los campos son obligatorios" });
+    }
+
+    // Insertar producto en la base de datos
+    const insertQuery = `
+      INSERT INTO productos (nombre, descripcion, precio, imagen_url) 
+      VALUES ($1, $2, $3, $4) RETURNING *;
+    `;
+
+    const newProduct = await pool.query(insertQuery, [
+      nombre,
+      descripcion,
+      precio,
+      imagen_url,
+    ]);
+
+    console.log("✅ Producto creado con éxito:", newProduct.rows[0]);
+
+    res.status(201).json({
+      message: "Producto creado exitosamente",
+      producto: newProduct.rows[0],
+    });
+  } catch (error) {
+    console.error("❌ Error al crear producto:", error);
+    res
+      .status(500)
+      .json({ message: "Error en el servidor", error: error.message });
+  }
+});
+
 console.log("📌 Cargando rutas de autenticación...");
-app.use("/api/auth", authRoutes);
+
 // 📌 Rutas de Autenticación
 app.use("/api/auth", authRoutes);
 

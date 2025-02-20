@@ -9,6 +9,7 @@ import Carrito from "./pages/Carrito";
 import Productos from "./pages/Productos";
 import Perfil from "./pages/Perfil";
 import ProductoDetalle from "./pages/ProductoDetalle";
+import CrearProducto from "./pages/CrearProducto";
 
 import { CarritoProvider } from "./context/CarritoContext"; // Importacion del proveedor del carrito
 
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/carrito" element={<Carrito />} />
             <Route path="/productos" element={<Productos />} />
             <Route path="/perfil" element={<Perfil />} />{" "}
+            <Route path="/crear-producto" element={<CrearProducto />} />
             <Route path="/producto/:id" element={<ProductoDetalle />} />
           </Routes>
         </div>

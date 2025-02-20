@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-// console.log("📡 DATABASE_URL:", process.env.DATABASE_URL); //para testing
+
 //
 // 📌 Configuración de conexión a PostgreSQL (Neon.tech)
 const pool = new Pool({
@@ -37,6 +37,7 @@ app.get("/api/products", async (req, res) => {
         nombre, 
         principio_activo,
         imagen_url,
+        dosis,        
         stock,
         laboratorio,
         descripcion,
@@ -82,33 +83,93 @@ app.get("/api/products/:id", async (req, res) => {
 ////
 ////
 // 📌 Ruta para CREAR un nuevo producto
+// 📌 Ruta para CREAR un nuevo producto
 app.post("/api/products", async (req, res) => {
   console.log("📌 Recibida solicitud POST en /api/products");
-  console.log("📌 Datos recibidos:", req.body); // 👈 Imprime los datos recibidos
+  console.log("📌 Datos recibidos en el backend:", req.body);
 
   try {
-    let { nombre, principio_activo, descripcion, precio, imagen_url } =
-      req.body;
+    // 📌 Extraer los datos del cuerpo de la solicitud
+    let {
+      nombre,
+      principio_activo,
+      dosis,
+      descripcion,
+      precio,
+      imagen_url,
+      stock,
+      laboratorio,
+    } = req.body;
 
-    // 🔹 Si `principio_activo` no existe en `req.body`, Express no lo está procesando correctamente
-    if (!principio_activo) {
-      console.log(
-        "⚠️ Advertencia: `principio_activo` no recibido, asignando valor 'Desconocido'"
-      );
-      principio_activo = "Desconocido"; // 👈 Valor predeterminado
-    }
+    // 📌 Valores predeterminados (||)
+    nombre =
+      nombre ||
+      (console.log(
+        "⚠️ Advertencia: nombre no recibido, asignando valor 'Producto Desconocido'"
+      ),
+      "Producto Desconocido");
+    principio_activo =
+      principio_activo ||
+      (console.log(
+        "⚠️ Advertencia: principio_activo no recibido, asignando valor 'Desconocido'"
+      ),
+      "Desconocido");
+    dosis =
+      dosis ||
+      (console.log(
+        "⚠️ Advertencia: dosis no recibido, asignando valor 'No especificado'"
+      ),
+      "No especificado");
+    descripcion =
+      descripcion ||
+      (console.log(
+        "⚠️ Advertencia: descripcion no recibida, asignando valor 'Sin descripción'"
+      ),
+      "Sin descripción");
+    precio =
+      precio ||
+      (console.log("⚠️ Advertencia: precio no recibido, asignando valor 0.0"),
+      0.0);
+    imagen_url =
+      imagen_url ||
+      (console.log(
+        "⚠️ Advertencia: imagen_url no recibido, asignando valor 'https://example.com/default-image.jpg'"
+      ),
+      "https://example.com/default-image.jpg");
+    stock =
+      stock ||
+      (console.log("⚠️ Advertencia: stock no recibido, asignando valor 0"), 0);
+    laboratorio =
+      laboratorio ||
+      (console.log(
+        "⚠️ Advertencia: laboratorio no recibido, asignando valor 'Laboratorio Desconocido'"
+      ),
+      "Laboratorio Desconocido");
 
     const insertQuery = `
-      INSERT INTO productos (nombre, principio_activo, descripcion, precio, imagen_url) 
-      VALUES ($1, $2, $3, $4, $5) RETURNING *;
+      INSERT INTO productos (
+        nombre, 
+        principio_activo, 
+        dosis, 
+        descripcion, 
+        precio, 
+        imagen_url, 
+        stock, 
+        laboratorio
+      ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
+      RETURNING *;
     `;
 
     const newProduct = await pool.query(insertQuery, [
       nombre,
       principio_activo,
+      dosis,
       descripcion,
       precio,
       imagen_url,
+      stock,
+      laboratorio,
     ]);
 
     console.log("✅ Producto creado con éxito:", newProduct.rows[0]);

@@ -185,6 +185,78 @@ app.post("/api/products", async (req, res) => {
   }
 });
 
+
+// 📌 Ruta para MODIFICAR un producto por ID
+app.put("/api/products/:id", async (req, res) => {
+  const { id } = req.params;
+  const {
+    nombre,
+    principio_activo,
+    dosis,
+    descripcion,
+    precio,
+    imagen_url,
+    stock,
+    laboratorio,
+  } = req.body;
+
+  try {
+    // Verificar si el producto existe antes de actualizarlo
+    const productExists = await pool.query(
+      "SELECT * FROM productos WHERE id = $1",
+      [id]
+    );
+
+    if (productExists.rows.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Producto no encontrado para actualizar" });
+    }
+
+    // Actualizar el producto en la base de datos
+    const updateQuery = `
+      UPDATE productos
+      SET 
+        nombre = $1,
+        principio_activo = $2,
+        dosis = $3,
+        descripcion = $4,
+        precio = $5,
+        imagen_url = $6,
+        stock = $7,
+        laboratorio = $8
+      WHERE id = $9
+      RETURNING *;
+    `;
+
+    const updatedProduct = await pool.query(updateQuery, [
+      nombre,
+      principio_activo,
+      dosis,
+      descripcion,
+      precio,
+      imagen_url,
+      stock,
+      laboratorio,
+      id,
+    ]);
+
+    console.log("✅ Producto actualizado con éxito:", updatedProduct.rows[0]);
+
+    res.status(200).json({
+      message: "Producto actualizado exitosamente",
+      producto: updatedProduct.rows[0],
+    });
+  } catch (error) {
+    console.error("❌ Error al actualizar producto:", error);
+    res
+      .status(500)
+      .json({ message: "Error en el servidor", error: error.message });
+  }
+});
+
+
+
 // 📌 Ruta para ELIMINAR un producto por ID
 app.delete("/api/products/:id", async (req, res) => {
   const id = parseInt(req.params.id, 10);

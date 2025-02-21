@@ -163,7 +163,10 @@ const Navbar = () => {
         <StyledLink to="/productos">Productos</StyledLink>
         <StyledLink to="/login">Login</StyledLink>
         <StyledLink to="/register">Registrarse</StyledLink>
-        <StyledLink to="/crear-producto">Crear Producto (testing)</StyledLink>
+        <StyledLink to="/crear-producto">Crear Producto</StyledLink>
+        <StyledLink to="/lista-productos">
+          Modificar Producto (testing)
+        </StyledLink>
       </Box>
     </div>
   );

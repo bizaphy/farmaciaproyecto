@@ -81,8 +81,7 @@ app.get("/api/products/:id", async (req, res) => {
 });
 
 ////
-////
-// 📌 Ruta para CREAR un nuevo producto
+
 // 📌 Ruta para CREAR un nuevo producto
 app.post("/api/products", async (req, res) => {
   console.log("📌 Recibida solicitud POST en /api/products");
@@ -183,6 +182,32 @@ app.post("/api/products", async (req, res) => {
     res
       .status(500)
       .json({ message: "Error en el servidor", error: error.message });
+  }
+});
+
+// 📌 Ruta para ELIMINAR un producto por ID
+app.delete("/api/products/:id", async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+
+  if (isNaN(id)) {
+    return res.status(400).json({ message: "El ID debe ser un número" });
+  }
+
+  try {
+    const result = await pool.query(
+      `DELETE FROM productos WHERE id = $1 RETURNING *`,
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Producto no encontrado" });
+    }
+
+    console.log("🗑️ Producto eliminado:", result.rows[0]);
+    res.status(200).json({ message: "Producto eliminado exitosamente" });
+  } catch (error) {
+    console.error("❌ Error al eliminar producto:", error);
+    res.status(500).json({ message: "Error en el servidor" });
   }
 });
 

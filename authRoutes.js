@@ -78,7 +78,7 @@ router.post("/register", async (req, res) => {
     res.status(201).json({
       message: "Usuario registrado con éxito",
       token,
-      user: newUser.rows[0], // ✅ Enviar usuario completo en la respuesta
+      user: newUser.rows[0],
     });
   } catch (error) {
     console.error("❌ Error en el servidor (Registro):", error);
@@ -124,7 +124,6 @@ router.post("/login", async (req, res) => {
 
     console.log("✅ Usuario autenticado:", user.rows[0]);
 
-    // ✅ Devolver también el nombre y apellido
     res.status(200).json({
       message: "Inicio de sesión exitoso",
       token,

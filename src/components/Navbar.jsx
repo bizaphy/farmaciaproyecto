@@ -6,15 +6,41 @@ import {
   IconButton,
   Box,
   Paper,
+  Menu,
+  MenuItem,
+  Avatar,
 } from "@mui/material";
 import { Search, ShoppingCart, Person } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../img/logo_rojo.png";
 import { styled } from "@mui/material/styles";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const { user, signOut } = useAuth(); //nuevo
   const navigate = useNavigate();
+
+  // Estado para controlar el menú desplegable
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  // Función para abrir el menú
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  // Función para cerrar el menú
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  // Función para manejar el cierre de sesión
+  const handleLogout = () => {
+    signOut(); // Cerrar sesión
+    handleMenuClose(); // Cerrar el menú
+    navigate("/"); // Redirigir a la página principal
+  };
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -121,15 +147,59 @@ const Navbar = () => {
 
           {/* Íconos de usuario y carrito */}
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <Link
-              to="/perfil"
-              style={{ textDecoration: "none", color: "inherit" }}
+            <IconButton onClick={handleMenuOpen}>
+              {user ? (
+                <Avatar
+                  alt={user.nombre}
+                  src="/static/images/avatar/1.jpg"
+                  sx={{ width: 32, height: 32 }}
+                />
+              ) : (
+                <Person style={{ color: "black", fontSize: "1.5rem" }} />
+              )}
+            </IconButton>
+
+            {/* Menú desplegable */}
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleMenuClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
             >
-              <IconButton>
-                <Person style={{ color: "black", fontSize: "1.5rem" }} />{" "}
-                {/* Icono más grande */}
-              </IconButton>
-            </Link>
+              {user ? (
+                // Si el usuario está autenticado
+                <>
+                  <MenuItem
+                    onClick={() => {
+                      handleMenuClose();
+                      navigate("/perfil");
+                    }}
+                  >
+                    Perfil
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Cerrar Sesión</MenuItem>
+                </>
+              ) : (
+                // Si el usuario no está autenticado
+                <MenuItem
+                  onClick={() => {
+                    handleMenuClose();
+                    navigate("/login");
+                  }}
+                >
+                  Iniciar Sesión
+                </MenuItem>
+              )}
+            </Menu>
+
+            {/* Ícono de carrito */}
             <Link
               to="/carrito"
               style={{ textDecoration: "none", color: "inherit" }}
@@ -161,12 +231,22 @@ const Navbar = () => {
       >
         <StyledLink to="/">Somos</StyledLink>
         <StyledLink to="/productos">Productos</StyledLink>
-        <StyledLink to="/login">Login</StyledLink>
-        <StyledLink to="/register">Registrarse</StyledLink>
-        <StyledLink to="/crear-producto">Crear Producto</StyledLink>
-        <StyledLink to="/lista-productos">
-          Modificar Producto (testing)
-        </StyledLink>
+        {!user && (
+          // Si el usuario no está autenticado
+          <>
+            <StyledLink to="/login">Login</StyledLink>
+            <StyledLink to="/register">Registrarse</StyledLink>
+          </>
+        )}
+        {user && (
+          // Si el usuario está autenticado
+          <>
+            <StyledLink to="/crear-producto">Crear Producto</StyledLink>
+            <StyledLink to="/lista-productos">
+              Modificar Producto (testing)
+            </StyledLink>
+          </>
+        )}
       </Box>
     </div>
   );

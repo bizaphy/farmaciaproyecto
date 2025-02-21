@@ -41,6 +41,12 @@ function ModificarProducto() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
+  useEffect(() => {
+    if (!user) {
+      navigate("/login"); // Redirige al usuario a la página de inicio de sesión si no está autenticado
+    }
+  }, [user, navigate]);
+
   // 📌 Cargar datos del producto al cargar el componente
   useEffect(() => {
     const fetchProducto = async () => {
@@ -58,13 +64,19 @@ function ModificarProducto() {
         setError("Error de conexión al cargar el producto");
       }
     };
-
-    fetchProducto();
-  }, [id]);
+    if (user) {
+      fetchProducto();
+    }
+  }, [id, user]);
 
   // 📌 Manejo del envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      setError("Debes iniciar sesión para modificar un producto");
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -107,6 +119,10 @@ function ModificarProducto() {
   };
 
   const handleDelete = async () => {
+    if (!user) {
+      setError("Debes iniciar sesión para eliminar un producto");
+      return;
+    }
     if (
       window.confirm(
         "¿Estás seguro de eliminar este producto? Esta acción no se puede deshacer."

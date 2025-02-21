@@ -234,7 +234,6 @@ const Navbar = () => {
         {!user && (
           // Si el usuario no está autenticado
           <>
-            <StyledLink to="/login">Login</StyledLink>
             <StyledLink to="/register">Registrarse</StyledLink>
           </>
         )}

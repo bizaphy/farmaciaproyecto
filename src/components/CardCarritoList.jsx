@@ -27,6 +27,7 @@ const CardCarritoList = () => {
             <CarritoCard
               key={producto.id}
               id={producto.id}
+              imagen_url={producto.imagen_url}
               nombre={producto.nombre}
               principio_activo={producto.principio_activo}
               precio={producto.precio}

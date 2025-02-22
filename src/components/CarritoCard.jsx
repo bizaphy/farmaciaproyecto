@@ -2,7 +2,14 @@ import React, { useContext } from "react";
 import { CarritoContext } from "../context/CarritoContext";
 import { Card as MuiCard, Typography, Button, Box } from "@mui/material";
 
-const CarritoCard = ({ id, nombre, principio_activo, precio, cantidad }) => {
+const CarritoCard = ({
+  id,
+  nombre,
+  principio_activo,
+  precio,
+  cantidad,
+  imagen_url,
+}) => {
   const { incrementarCantidad, disminuirCantidad, eliminarDelCarrito } =
     useContext(CarritoContext);
 
@@ -19,6 +26,21 @@ const CarritoCard = ({ id, nombre, principio_activo, precio, cantidad }) => {
         boxShadow: 3,
       }}
     >
+      {/* 📌 Imagen del Producto */}
+      <Box sx={{ flex: 1, marginRight: 2 }}>
+        <img
+          src={imagen_url}
+          alt={nombre}
+          style={{
+            width: "100px",
+            height: "100px",
+            objectFit: "cover",
+            borderRadius: "8px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          }}
+        />
+      </Box>
+
       {/* 📌 Información del Producto */}
       <Box sx={{ flex: 2 }}>
         <Typography variant="h6">{nombre}</Typography>

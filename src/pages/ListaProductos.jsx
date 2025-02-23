@@ -65,7 +65,6 @@ function ListaProductos() {
               p: 2,
               mb: 2,
               boxShadow: 3,
-              borderRadius: 2,
             }}
           >
             {/* Imagen del producto */}

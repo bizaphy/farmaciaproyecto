@@ -60,6 +60,7 @@ function ListaProductos() {
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
+              borderRadius: "10px",
               justifyContent: "space-between",
               p: 2,
               mb: 2,

@@ -10,7 +10,7 @@ import {
   MenuItem,
   Avatar,
 } from "@mui/material";
-import { Search, ShoppingCart, Person } from "@mui/icons-material";
+import { Search, ShoppingCart, Person, Phone } from "@mui/icons-material"; // Importar ícono Phone
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../img/logo_rojo.png";
 import { styled } from "@mui/material/styles";
@@ -18,7 +18,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { user, signOut } = useAuth(); //nuevo
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
   // Estado para controlar el menú desplegable
@@ -49,6 +49,7 @@ const Navbar = () => {
   const handleSearch = () => {
     if (searchTerm.trim() !== "") {
       navigate(`/buscar?query=${searchTerm}`);
+      setSearchTerm("");
     }
   };
 
@@ -60,14 +61,48 @@ const Navbar = () => {
 
   return (
     <div>
-      {/* Franja roja superior */}
+      {/* Franja roja superior con animación */}
       <Box
         style={{
           backgroundColor: "#FF0000",
           height: "30px",
           width: "100%",
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden", // Para ocultar el contenido que se sale del Box
+          position: "relative", // Necesario para la animación
         }}
-      ></Box>
+      >
+        {/* Contenido animado */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px", // Espacio entre el ícono y el texto
+            whiteSpace: "nowrap", // Evita que el texto se divida en varias líneas
+            animation: "moveText 10s linear infinite", // Animación CSS
+            position: "absolute", // Para mover el contenido
+          }}
+        >
+          <Phone style={{ color: "white" }} /> {/* Ícono de teléfono de Material-UI */}
+          <span style={{ color: "white" }}>Delivery: +1 234 567 890</span>{" "}
+          {/* Texto con el número */}
+        </div>
+
+        {/* Definición de la animación en línea */}
+        <style>
+          {`
+            @keyframes moveText {
+              0% {
+                transform: translateX(100%); /* Comienza fuera del Box, a la derecha */
+              }
+              100% {
+                transform: translateX(-100%); /* Termina fuera del Box, a la izquierda */
+              }
+            }
+          `}
+        </style>
+      </Box>
 
       {/* Barra principal de la navbar */}
       <AppBar

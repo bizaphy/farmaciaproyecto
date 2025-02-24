@@ -12,7 +12,7 @@ import ProductoDetalle from "./pages/ProductoDetalle";
 import CrearProducto from "./pages/CrearProducto";
 import ModificarProducto from "./components/ModificarProducto";
 import ListaProductos from "./pages/ListaProductos";
-
+import SearchResults from "./pages/SearchResults";
 import { CarritoProvider } from "./context/CarritoContext"; // Importacion del proveedor del carrito
 
 import "slick-carousel/slick/slick.css";
@@ -29,6 +29,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registrar />} />
             <Route path="/carrito" element={<Carrito />} />
+            <Route path="/buscar" element={<SearchResults />} />
             <Route path="/productos" element={<Productos />} />
             <Route path="/lista-productos" element={<ListaProductos />} />
             <Route path="/perfil" element={<Perfil />} />{" "}

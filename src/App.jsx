@@ -17,6 +17,7 @@ import { CarritoProvider } from "./context/CarritoContext"; // Importacion del p
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ResultadosBusqueda from "./pages/ResultadosBusqueda";
 const App = () => {
   return (
     <div style={styles.app}>
@@ -37,6 +38,8 @@ const App = () => {
             <Route
               path="/modificarproducto/:id"
               element={<ModificarProducto />}
+            />
+            <Route path="/buscar" element={<ResultadosBusqueda />}
             />
           </Routes>
         </div>

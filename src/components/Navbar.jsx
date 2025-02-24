@@ -18,8 +18,9 @@ import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { user, signOut } = useAuth(); //nuevo
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
+
 
   // Estado para controlar el menú desplegable
   const [anchorEl, setAnchorEl] = useState(null);
@@ -44,13 +45,16 @@ const Navbar = () => {
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
-  };
+    if (event.target.value.trim() !== "");
+};
 
   const handleSearch = () => {
     if (searchTerm.trim() !== "") {
-      navigate(`/buscar?query=${searchTerm}`);
+        const params = new URLSearchParams();
+        params.append('query', searchTerm);
+        navigate(`/buscar?${params.toString()}`);
     }
-  };
+};
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {

@@ -9,6 +9,7 @@ import {
   Menu,
   MenuItem,
   Avatar,
+  Button,
 } from "@mui/material";
 import { Search, ShoppingCart, Person, Phone } from "@mui/icons-material"; // Importar ícono Phone
 import { Link, useNavigate } from "react-router-dom";
@@ -129,56 +130,24 @@ const Navbar = () => {
           </div>
 
           {/* Buscador */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flex: 1,
-              margin: "0 20px", // Ajuste de margen para centrar
-            }}
-          >
-            <Paper
-              component="form"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                width: "100%", // Ocupa todo el espacio disponible
-                maxWidth: "600px", // Aumentar el ancho máximo
-                borderRadius: "25px",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                transition: "box-shadow 0.3s ease",
-                "&:hover": {
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                },
-              }}
-            >
-              <InputBase
-                placeholder="Busca tu producto"
-                sx={{
-                  ml: 2,
-                  flex: 1,
-                  fontSize: "1.1rem", // Tamaño de fuente más grande
-                  padding: "10px 0", // Ajuste de padding para mayor altura
-                }}
-                value={searchTerm}
-                onChange={handleChange}
-                onKeyPress={handleKeyPress}
-              />
-              <IconButton
-                onClick={handleSearch}
-                sx={{
-                  p: "12px", // Aumentar el padding del botón
-                  color: "#FF0000",
-                  "&:hover": {
-                    backgroundColor: "rgba(255, 0, 0, 0.1)", // Efecto hover suave
-                  },
-                }}
-              >
-                <Search style={{ fontSize: "1.5rem" }} />{" "}
-                {/* Icono más grande */}
-              </IconButton>
-            </Paper>
-          </div>
+          <Link to="/buscar" style={{ textDecoration: "none" }}>
+  <Button
+    variant="contained"
+    sx={{
+      backgroundColor: "#FF0000",
+      color: "white",
+      borderRadius: "25px",
+      padding: "10px 20px",
+      fontSize: "1.1rem",
+      textTransform: "none",
+      "&:hover": {
+        backgroundColor: "#CC0000",
+      },
+    }}
+  >
+    Busca tus productos
+  </Button>
+</Link>
 
           {/* Íconos de usuario y carrito */}
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>

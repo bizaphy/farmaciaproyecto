@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useAuth } from "../context/AuthContext";
 import { CarritoContext } from "../context/CarritoContext";
 import { Card as MuiCard, Typography, Button, Box } from "@mui/material";
 
@@ -12,6 +13,18 @@ const CarritoCard = ({
 }) => {
   const { incrementarCantidad, disminuirCantidad, eliminarDelCarrito } =
     useContext(CarritoContext);
+   
+    const { user } = useAuth();
+
+const handlePagar = () => {
+  if (!user) {
+    alert("Debes iniciar sesión para continuar con la compra.");
+    // Redirigir al usuario a la página de login
+  } else {
+    // Lógica de pago
+    alert("Procesando pago...");
+  }
+};
 
   return (
     <MuiCard

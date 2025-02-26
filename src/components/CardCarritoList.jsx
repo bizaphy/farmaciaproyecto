@@ -1,13 +1,24 @@
 import React, { useContext } from "react";
 import { CarritoContext } from "../context/CarritoContext";
+import { useAuth } from "../context/AuthContext"; // Importa useAuth
+import { useNavigate } from "react-router-dom"; // Importa useNavigate para redirigir
 import CarritoCard from "./CarritoCard";
 import { Box, Typography, Button } from "@mui/material";
 
 const CardCarritoList = () => {
   const { carrito, calcularTotal } = useContext(CarritoContext);
-
+  const { user } = useAuth(); // Obtén el usuario actual
+  const navigate = useNavigate(); // Hook para redirigir
   const handlePagar = () => {
-    alert("Redirigiendo al proceso de pago...");
+    if (!user) {
+      // Si el usuario no está autenticado, redirige a la página de inicio de sesión
+      alert("Debes iniciar sesión para continuar con la compra.");
+      navigate("/login"); 
+    } else {
+      // Si el usuario está autenticado, procede con el pago
+      alert("Redirigiendo al proceso de pago...");
+     
+    }
   };
 
   return (

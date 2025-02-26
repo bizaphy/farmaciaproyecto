@@ -1,19 +1,33 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
+import { useAuth } from "./AuthContext"; // Importa el AuthContext
 
 // 📌 Creacion del contexto del carrito
 const CarritoContext = createContext();
 
 const CarritoProvider = ({ children }) => {
-  // 📌 Estado para manejar los productos en el carrito, recuperado de localStorage (al subir a un servidor externo esto se debera modificar)
-  const [carrito, setCarrito] = useState(() => {
-    const carritoGuardado = localStorage.getItem("carrito");
-    return carritoGuardado ? JSON.parse(carritoGuardado) : [];
-  });
+  const { user } = useAuth(); // Obtén el usuario actual
+  const [carrito, setCarrito] = useState([]);
 
-  // 📌 Guardar el carrito en localStorage cada vez que se actualiza (al subir a un servidor externo esto se debera modificar)
+  // 📌 Cargar el carrito del usuario al iniciar sesión
   useEffect(() => {
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-  }, [carrito]);
+    if (user) {
+      const carritoGuardado = localStorage.getItem(`carrito_${user.id}`);
+      if (carritoGuardado) {
+        setCarrito(JSON.parse(carritoGuardado));
+      } else {
+        setCarrito([]);
+      }
+    } else {
+      setCarrito([]); // Vacía el carrito si no hay usuario
+    }
+  }, [user]);
+
+  // 📌 Guardar el carrito en localStorage cada vez que se actualiza
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem(`carrito_${user.id}`, JSON.stringify(carrito));
+    }
+  }, [carrito, user]);
 
   // 📌 Función para calculo total del carrito
   const calcularTotal = () => {
@@ -37,7 +51,6 @@ const CarritoProvider = ({ children }) => {
         nuevoCarrito.push({ ...producto, cantidad: 1 });
       }
 
-      localStorage.setItem("carrito", JSON.stringify(nuevoCarrito)); // Por ahora se guarda en localStorage
       return nuevoCarrito;
     });
   };
@@ -61,7 +74,7 @@ const CarritoProvider = ({ children }) => {
     );
   };
 
-  // 📌 Función para eliminar un producto  del carrito
+  // 📌 Función para eliminar un producto del carrito
   const eliminarDelCarrito = (id) => {
     setCarrito((prevCarrito) => prevCarrito.filter((p) => p.id !== id));
   };

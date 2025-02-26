@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -7,6 +7,16 @@ const API_URL = "https://farmaciaproyecto.onrender.com/api/auth";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+
+  // 📌 Verificar si hay un token al cargar la aplicación
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Aquí puedes hacer una solicitud al backend para obtener los datos del usuario
+      // usando el token. Por ahora, simulamos que el usuario está autenticado.
+      setUser({ id: "user_id", nombre: "Usuario", correo_electronico: "usuario@example.com" });
+    }
+  }, []);
 
   // 📌 REGISTRAR USUARIO
   const signUp = async (formData) => {

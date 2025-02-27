@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
-import ProductosCard from "../components/ProductosCard";
 import {
   Table,
   TableBody,
@@ -113,61 +112,65 @@ function SearchResults() {
       ) : error ? (
         <p className="text-red-500 text-center">{error}</p>
       ) : finalProducts.length > 0 ? (
-        <TableContainer component={Paper} sx={{ borderRadius: "10px", overflow: "hidden", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
-          <Table sx={{ minWidth: 650 }} aria-label="tabla de productos">
-            <TableHead sx={{ backgroundColor: "#009CC7" }}>
-              <TableRow>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }}>ID</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }} align="right">Nombre</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }} align="right">Principio Activo</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }} align="right">Dosis</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }} align="right">Stock</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }} align="right">Laboratorio</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }} align="right">Descripción</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }} align="right">Precio</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-  {finalProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product, index) => {
-    console.log("ID del producto en SearchResults:", product.id); // 📌 Debug: Verificar IDs en consola
-    return (
-      <TableRow 
-        key={product.id} 
-        sx={{ 
-          backgroundColor: index % 2 === 0 ? "#f9f9f9" : "white", 
-          "&:hover": { backgroundColor: "#e0f7fa" } 
-        }}
-      >
-        <TableCell component="th" scope="row">{product.id}</TableCell>
-        <TableCell align="right"> 
-          <Link 
-            to={`/producto/${product.id}`} 
-            style={{ textDecoration: "none", color: "#007bff", fontWeight: "bold" }}
-          >
-            {product.nombre}
-          </Link>
-        </TableCell>
-        <TableCell align="right">{product.principio_activo}</TableCell>
-        <TableCell align="right">{product.dosis}</TableCell>
-        <TableCell align="right">{product.stock}</TableCell>
-        <TableCell align="right">{product.laboratorio}</TableCell>
-        <TableCell align="right">{product.descripcion}</TableCell>
-        <TableCell align="right">${product.precio}</TableCell>
+        <TableContainer 
+  component={Paper} 
+  sx={{ 
+    borderRadius: "10px", 
+    overflowX: "auto", 
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" 
+  }}
+>
+  <Table sx={{ minWidth: 650 }} aria-label="tabla de productos">
+    <TableHead sx={{ backgroundColor: "#009CC7" }}>
+      <TableRow>
+        <TableCell sx={{ color: "white", fontWeight: "bold" }}>ID</TableCell>
+        <TableCell sx={{ color: "white", fontWeight: "bold" }} align="left">Nombre</TableCell>
+        <TableCell sx={{ color: "white", fontWeight: "bold", display: { xs: "none", sm: "table-cell" } }} align="left">Principio Activo</TableCell>
+        <TableCell sx={{ color: "white", fontWeight: "bold", display: { xs: "none", md: "table-cell" } }} align="left">Dosis</TableCell>
+        <TableCell sx={{ color: "white", fontWeight: "bold" }} align="right">Stock</TableCell>
+        <TableCell sx={{ color: "white", fontWeight: "bold", display: { xs: "none", md: "table-cell" } }} align="left">Laboratorio</TableCell>
+        <TableCell sx={{ color: "white", fontWeight: "bold", display: { xs: "none", lg: "table-cell" } }} align="left">Descripción</TableCell>
+        <TableCell sx={{ color: "white", fontWeight: "bold" }} align="left">Precio</TableCell>
       </TableRow>
-    );
-  })}
-</TableBody>
-          </Table>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25, 50]}
-            component="div"
-            count={finalProducts.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </TableContainer>
+    </TableHead>
+    <TableBody>
+      {finalProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product, index) => (
+        <TableRow 
+          key={product.id} 
+          sx={{ 
+            backgroundColor: index % 2 === 0 ? "#f9f9f9" : "white", 
+            "&:hover": { backgroundColor: "#e0f7fa" } 
+          }}
+        >
+          <TableCell component="th" scope="row">{product.id}</TableCell>
+          <TableCell align="left">
+            <Link 
+              to={`/producto/${product.id}`} 
+              style={{ textDecoration: "none", color: "#007bff", fontWeight: "bold" }}
+            >
+              {product.nombre}
+            </Link>
+          </TableCell>
+          <TableCell align="left" sx={{ display: { xs: "none", sm: "table-cell" } }}>{product.principio_activo}</TableCell>
+          <TableCell align="left" sx={{ display: { xs: "none", md: "table-cell" } }}>{product.dosis}</TableCell>
+          <TableCell align="left">{product.stock}</TableCell>
+          <TableCell align="left" sx={{ display: { xs: "none", md: "table-cell" } }}>{product.laboratorio}</TableCell>
+          <TableCell align="left" sx={{ display: { xs: "none", lg: "table-cell" } }}>{product.descripcion}</TableCell>
+          <TableCell align="left">${product.precio}</TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+  <TablePagination
+    rowsPerPageOptions={[5, 10, 25, 50]}
+    component="div"
+    count={finalProducts.length}
+    rowsPerPage={rowsPerPage}
+    page={page}
+    onPageChange={handleChangePage}
+    onRowsPerPageChange={handleChangeRowsPerPage}
+  />
+</TableContainer>
       ) : (
         <p className="text-gray-500 text-center mt-4">No se encontraron productos.</p>
       )}

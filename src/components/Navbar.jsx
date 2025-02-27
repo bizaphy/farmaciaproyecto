@@ -136,9 +136,9 @@ const Navbar = () => {
     sx={{
       backgroundColor: "#FF0000",
       color: "white",
-      borderRadius: "25px",
-      padding: "10px 20px",
-      fontSize: "1.1rem",
+      borderRadius: "10px",
+      padding: "3px 6px",
+      fontSize: "0.6rem",
       textTransform: "none",
       "&:hover": {
         backgroundColor: "#CC0000",

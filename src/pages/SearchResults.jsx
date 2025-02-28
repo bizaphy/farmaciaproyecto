@@ -104,20 +104,24 @@ function SearchResults() {
         <p className="text-red-500 text-center">{error}</p>
       ) : searchTerm.trim() !== "" && filteredProducts.length > 0 ? (
         <TableContainer 
-          component={Paper} 
-          sx={{ borderRadius: "10px", overflowX: "auto", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}
+        component={Paper} 
+        sx={{ 
+          borderRadius: "12px", 
+          overflowX: "auto", 
+          boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.15)" 
+        }}
         >
           <Table sx={{ minWidth: 650 }} aria-label="tabla de productos">
-            <TableHead sx={{ backgroundColor: "#009CC7" }}>
+            <TableHead sx={{ backgroundColor: "#007396" }}>
               <TableRow>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }}>ID</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }} align="left">Nombre</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold", display: { xs: "none", sm: "table-cell" } }} align="left">Principio Activo</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold", display: { xs: "none", md: "table-cell" } }} align="left">Dosis</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }} align="right">Stock</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold", display: { xs: "none", md: "table-cell" } }} align="left">Laboratorio</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold", display: { xs: "none", lg: "table-cell" } }} align="left">Descripción</TableCell>
-                <TableCell sx={{ color: "white", fontWeight: "bold" }} align="left">Precio</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold", textTransform: "uppercase" }}>ID</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold", textTransform: "uppercase" }} align="left">Nombre</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold", textTransform: "uppercase", display: { xs: "none", sm: "table-cell" } }} align="left">Principio Activo</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold", textTransform: "uppercase", display: { xs: "none", md: "table-cell" } }} align="left">Dosis</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold", textTransform: "uppercase" }} align="left">Stock</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold", textTransform: "uppercase",  display: { xs: "none", md: "table-cell" } }} align="left">Laboratorio</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold", textTransform: "uppercase",  display: { xs: "none", lg: "table-cell" } }} align="left">Descripción</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold", textTransform: "uppercase" }} align="left">Precio</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

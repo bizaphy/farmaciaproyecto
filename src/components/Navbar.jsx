@@ -131,23 +131,22 @@ const Navbar = () => {
 
           {/* Buscador */}
           <Link to="/buscar" style={{ textDecoration: "none" }}>
-  <Button
-    variant="contained"
-    sx={{
-      backgroundColor: "#E3F2FD",
-      color: "#FF0000",
-      borderRadius: "12px",
-      padding: "6px 12px",
-      fontSize: "0.9rem",
-      textTransform: "none",
-      "&:hover": {
-        backgroundColor: "#FBE9E7",
-        color: "FF0000"
-      },
-    }}
-  >
-    Busca tus productos
-  </Button>
+<Button
+  variant="text" 
+  sx={{
+    color: "#808080",
+    borderRadius: "12px",
+    padding: "6px 12px",
+    fontSize: "1.35rem", 
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: "transparent", 
+      color: "#808080" 
+    },
+  }}
+>
+  Busca tus productos
+</Button>
 </Link>
 
           {/* Íconos de usuario y carrito */}

@@ -134,14 +134,15 @@ const Navbar = () => {
   <Button
     variant="contained"
     sx={{
-      backgroundColor: "#FF0000",
-      color: "white",
-      borderRadius: "10px",
-      padding: "3px 6px",
-      fontSize: "0.6rem",
+      backgroundColor: "#E3F2FD",
+      color: "#FF0000",
+      borderRadius: "12px",
+      padding: "6px 12px",
+      fontSize: "0.9rem",
       textTransform: "none",
       "&:hover": {
-        backgroundColor: "#CC0000",
+        backgroundColor: "#FBE9E7",
+        color: "FF0000"
       },
     }}
   >

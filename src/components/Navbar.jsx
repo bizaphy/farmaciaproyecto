@@ -85,7 +85,8 @@ const Navbar = () => {
             position: "absolute", // Para mover el contenido
           }}
         >
-          <Phone style={{ color: "white" }} /> {/* Ícono de teléfono de Material-UI */}
+          <Phone style={{ color: "white" }} />{" "}
+          {/* Ícono de teléfono de Material-UI */}
           <span style={{ color: "white" }}>Delivery: +1 234 567 890</span>{" "}
           {/* Texto con el número */}
         </div>
@@ -131,23 +132,23 @@ const Navbar = () => {
 
           {/* Buscador */}
           <Link to="/buscar" style={{ textDecoration: "none" }}>
-<Button
-  variant="text" 
-  sx={{
-    color: "#808080",
-    borderRadius: "12px",
-    padding: "6px 12px",
-    fontSize: "1.35rem", 
-    textTransform: "none",
-    "&:hover": {
-      backgroundColor: "transparent", 
-      color: "#808080" 
-    },
-  }}
->
-  Busca tus productos
-</Button>
-</Link>
+            <Button
+              variant="text"
+              sx={{
+                color: "#808080",
+                borderRadius: "12px",
+                padding: "6px 12px",
+                fontSize: "1.35rem",
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  color: "#808080",
+                },
+              }}
+            >
+              Busca tus productos
+            </Button>
+          </Link>
 
           {/* Íconos de usuario y carrito */}
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -245,9 +246,7 @@ const Navbar = () => {
           // Si el usuario está autenticado
           <>
             <StyledLink to="/crear-producto">Crear Producto</StyledLink>
-            <StyledLink to="/lista-productos">
-              Modificar Producto (testing)
-            </StyledLink>
+            <StyledLink to="/lista-productos">Modificar Producto</StyledLink>
           </>
         )}
       </Box>
